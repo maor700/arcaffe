@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "projects": {
+    "arcaffe": "apps/arcaffe",
+    "arcaffe-e2e": "apps/arcaffe-e2e"
+  }
+}

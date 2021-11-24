@@ -1,0 +1,28 @@
+{
+  "root": "apps/arcaffe-e2e",
+  "sourceRoot": "apps/arcaffe-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/arcaffe-e2e/cypress.json",
+        "devServerTarget": "arcaffe:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "arcaffe:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/arcaffe-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["arcaffe"]
+}
