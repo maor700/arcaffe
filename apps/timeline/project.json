@@ -1,0 +1,74 @@
+{
+  "root": "apps/timeline",
+  "sourceRoot": "apps/timeline/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/timeline",
+        "index": "apps/timeline/src/index.html",
+        "baseHref": "/",
+        "main": "apps/timeline/src/main.tsx",
+        "polyfills": "apps/timeline/src/polyfills.ts",
+        "tsConfig": "apps/timeline/tsconfig.app.json",
+        "assets": ["apps/timeline/src/favicon.ico", "apps/timeline/src/assets"],
+        "styles": ["apps/timeline/src/styles.less"],
+        "scripts": [],
+        "webpackConfig": "@nrwl/react/plugins/webpack"
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/timeline/src/environments/environment.ts",
+              "with": "apps/timeline/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/web:dev-server",
+      "options": {
+        "buildTarget": "timeline:build",
+        "hmr": true
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "timeline:build:production",
+          "hmr": false
+        },
+        "development": {
+          "buildTarget": "timeline:build:production",
+          "hmr": true,
+          "port": 3002
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/timeline/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/timeline"],
+      "options": {
+        "jestConfig": "apps/timeline/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

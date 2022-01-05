@@ -1,0 +1,35 @@
+:host {
+  display: block;
+  direction: rtl;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: white;
+  background-color: #131f27;
+  font-size: 16px;
+  height: calc(100% - 0.15em);
+  width: calc(100% - 0.15em);
+}
+
+.section {
+  display: flex;
+}
+
+.grid-header-footer-con {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas: 'header''main''footer';
+  width: calc(100% - 2px);
+
+  .haeder {
+    grid-area: header;
+  }
+
+  .main {
+    grid-area: main;
+    overflow: auto;
+  }
+
+  .footer {
+    grid-area: footer;
+  }
+}

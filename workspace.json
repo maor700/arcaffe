@@ -2,6 +2,20 @@
   "version": 2,
   "projects": {
     "arcaffe": "apps/arcaffe",
-    "arcaffe-e2e": "apps/arcaffe-e2e"
+    "arcaffe-e2e": "apps/arcaffe-e2e",
+    "common-types": "libs/common-types",
+    "data-provider": "apps/data-provider",
+    "materials-app": "apps/materials-app",
+    "materials-app-e2e": "apps/materials-app-e2e",
+    "ng-test-app": "apps/ng-test-app",
+    "ng-test-app-e2e": "apps/ng-test-app-e2e",
+    "platform-app": "apps/platform-app",
+    "shared-button": "libs/shared-button",
+    "store": "libs/store",
+    "timeline": "apps/timeline",
+    "timeline-e2e": "apps/timeline-e2e",
+    "ui-app": "apps/ui-app",
+    "users-app": "apps/users-app",
+    "users-app-e2e": "apps/users-app-e2e"
   }
 }

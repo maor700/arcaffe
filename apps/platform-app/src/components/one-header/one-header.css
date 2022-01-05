@@ -1,0 +1,16 @@
+.flex {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5em;
+}
+a {
+  text-decoration: unset;
+  color: unset;
+}
+.link-active {
+  @apply text-primary;
+}
+
+.app-header {
+  padding: 0.5em;
+}

@@ -1,0 +1,77 @@
+{
+  "root": "apps/materials-app",
+  "sourceRoot": "apps/materials-app/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/materials-app",
+        "index": "apps/materials-app/src/index.html",
+        "baseHref": "/",
+        "main": "apps/materials-app/src/main.tsx",
+        "polyfills": "apps/materials-app/src/polyfills.ts",
+        "tsConfig": "apps/materials-app/tsconfig.app.json",
+        "assets": [
+          "apps/materials-app/src/favicon.ico",
+          "apps/materials-app/src/assets"
+        ],
+        "styles": ["apps/materials-app/src/styles.less"],
+        "scripts": [],
+        "webpackConfig": "@nrwl/react/plugins/webpack"
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/materials-app/src/environments/environment.ts",
+              "with": "apps/materials-app/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/web:dev-server",
+      "options": {
+        "buildTarget": "materials-app:build",
+        "hmr": true
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "materials-app:build:production",
+          "hmr": true,
+          "port": 3003
+        },
+        "production": {
+          "buildTarget": "materials-app:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/materials-app/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/materials-app"],
+      "options": {
+        "jestConfig": "apps/materials-app/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

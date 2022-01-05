@@ -1,0 +1,28 @@
+{
+  "root": "apps/timeline-e2e",
+  "sourceRoot": "apps/timeline-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/timeline-e2e/cypress.json",
+        "devServerTarget": "timeline:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "timeline:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/timeline-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["timeline"]
+}

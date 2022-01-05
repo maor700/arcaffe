@@ -1,0 +1,68 @@
+{
+  "root": "apps/ui-app",
+  "sourceRoot": "apps/ui-app/src",
+  "projectType": "application",
+  "generators": {
+    "@nxext/stencil:component": {
+      "style": "less"
+    }
+  },
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nxext/stencil:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "projectType": "application",
+        "tsConfig": "apps/ui-app/tsconfig.app.json",
+        "configPath": "apps/ui-app/stencil.config.ts",
+        "outputPath": "dist/apps/ui-app"
+      },
+      "configurations": {
+        "production": {
+          "dev": false,
+          "prod": true
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nxext/stencil:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "projectType": "application",
+        "tsConfig": "apps/ui-app/tsconfig.app.json",
+        "configPath": "apps/ui-app/stencil.config.ts",
+        "outputPath": "dist/apps/ui-app",
+        "serve": true,
+        "watch": true
+      }
+    },
+    "test": {
+      "executor": "@nxext/stencil:test",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "projectType": "application",
+        "tsConfig": "apps/ui-app/tsconfig.app.json",
+        "configPath": "apps/ui-app/stencil.config.ts",
+        "outputPath": "dist/apps/ui-app"
+      }
+    },
+    "e2e": {
+      "executor": "@nxext/stencil:e2e",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "projectType": "application",
+        "tsConfig": "apps/ui-app/tsconfig.app.json",
+        "configPath": "apps/ui-app/stencil.config.ts",
+        "outputPath": "dist/apps/ui-app"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/ui-app/**/*.{ts,tsx}"]
+      }
+    }
+  }
+}

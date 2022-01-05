@@ -1,0 +1,69 @@
+{
+  "root": "apps/platform-app",
+  "sourceRoot": "apps/platform-app/src",
+  "projectType": "application",
+  "generators": {
+    "@nxext/stencil:component": {
+      "style": "less"
+    }
+  },
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nxext/stencil:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "projectType": "application",
+        "tsConfig": "apps/platform-app/tsconfig.app.json",
+        "configPath": "apps/platform-app/stencil.config.ts",
+        "outputPath": "dist/apps/platform-app"
+      },
+      "configurations": {
+        "production": {
+          "dev": false,
+          "prod": true
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nxext/stencil:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "proxyConfig": "apps/materials/src/proxy.conf.json",
+        "projectType": "application",
+        "tsConfig": "apps/platform-app/tsconfig.app.json",
+        "configPath": "apps/platform-app/stencil.config.ts",
+        "outputPath": "dist/apps/platform-app",
+        "serve": true,
+        "watch": true
+      }
+    },
+    "test": {
+      "executor": "@nxext/stencil:test",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "projectType": "application",
+        "tsConfig": "apps/platform-app/tsconfig.app.json",
+        "configPath": "apps/platform-app/stencil.config.ts",
+        "outputPath": "dist/apps/platform-app"
+      }
+    },
+    "e2e": {
+      "executor": "@nxext/stencil:e2e",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "projectType": "application",
+        "tsConfig": "apps/platform-app/tsconfig.app.json",
+        "configPath": "apps/platform-app/stencil.config.ts",
+        "outputPath": "dist/apps/platform-app"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/platform-app/**/*.{ts,tsx}"]
+      }
+    }
+  }
+}

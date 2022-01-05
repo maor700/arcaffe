@@ -1,0 +1,17 @@
+{
+  "extends": [
+    "plugin:@stencil/recommended",
+    "plugin:import/typescript",
+    "../../.eslintrc.json"
+  ],
+  "ignorePatterns": ["!**/*"],
+  "overrides": [{
+      "files": ["*.ts", "*.tsx"],
+      "rules": {}
+    },
+    {
+      "files": ["*.js", "*.jsx"],
+      "rules": {}
+    }
+  ]
+}

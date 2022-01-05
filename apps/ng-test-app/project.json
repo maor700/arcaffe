@@ -1,0 +1,95 @@
+{
+    "projectType": "application",
+    "root": "apps/ng-test-app",
+    "sourceRoot": "apps/ng-test-app/src",
+    "prefix": "arcaffe",
+    "targets": {
+        "build": {
+            "builder": "@angular-builders/custom-webpack:browser",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "customWebpackConfig": {
+                    "path": "apps/ng-test-app/custom-webpack.config.js"
+                },
+                "outputPath": "dist/apps/ng-test-app",
+                "index": "apps/ng-test-app/src/index.html",
+                "main": "apps/ng-test-app/src/main.ts",
+                "polyfills": "apps/ng-test-app/src/polyfills.ts",
+                "tsConfig": "apps/ng-test-app/tsconfig.app.json",
+                "inlineStyleLanguage": "less",
+                "assets": [
+                    "apps/ng-test-app/src/favicon.ico",
+                    "apps/ng-test-app/src/assets"
+                ],
+                "styles": ["apps/ng-test-app/src/styles.less"],
+                "scripts": []
+            },
+            "configurations": {
+                "production": {
+                    "budgets": [{
+                            "type": "initial",
+                            "maximumWarning": "500kb",
+                            "maximumError": "1mb"
+                        },
+                        {
+                            "type": "anyComponentStyle",
+                            "maximumWarning": "2kb",
+                            "maximumError": "4kb"
+                        }
+                    ],
+                    "fileReplacements": [{
+                        "replace": "apps/ng-test-app/src/environments/environment.ts",
+                        "with": "apps/ng-test-app/src/environments/environment.prod.ts"
+                    }],
+                    "outputHashing": "all"
+                },
+                "development": {
+                    "buildOptimizer": false,
+                    "optimization": false,
+                    "vendorChunk": true,
+                    "extractLicenses": false,
+                    "sourceMap": true,
+                    "namedChunks": true
+                }
+            },
+            "defaultConfiguration": "production"
+        },
+        "serve": {
+            "executor": "@angular-builders/custom-webpack:dev-server",
+            "configurations": {
+                "production": {
+                    "browserTarget": "ng-test-app:build:production"
+                },
+                "development": {
+                    "browserTarget": "ng-test-app:build:development",
+                    "port": 3005
+                }
+            },
+            "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+            "executor": "@angular-devkit/build-angular:extract-i18n",
+            "options": {
+                "browserTarget": "ng-test-app:build"
+            }
+        },
+        "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "options": {
+                "lintFilePatterns": [
+                    "apps/ng-test-app/src/**/*.ts",
+                    "apps/ng-test-app/src/**/*.html"
+                ]
+            }
+        },
+        "test": {
+            "executor": "@nrwl/jest:jest",
+            "outputs": ["coverage/apps/ng-test-app"],
+            "options": {
+                "jestConfig": "apps/ng-test-app/jest.config.js",
+                "passWithNoTests": true
+            }
+        }
+    },
+    "tags": []
+}

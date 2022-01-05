@@ -1,0 +1,12 @@
+<li (click)="userSelectHandler(item)" [ngClass]="{'item': true, 'selected': item.id === selectedId}" *ngFor="let item of materials; let i = index">
+    <span>{{i}} </span>
+    <span>
+      {{displayName}}
+    </span>
+    <span>
+      {{additionalProps.email}}
+    </span>
+    <span>
+      {{isSelected}}
+    </span>
+</li>

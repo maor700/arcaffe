@@ -1,0 +1,79 @@
+:host {
+    /* display: block; */
+    position: relative;
+    /* overflow: hidden;
+    width: 100%;
+    padding-top: 56.25%; */
+    /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
+}
+
+iframe {
+    background: transparent;
+    border: none;
+    color: #eee;
+    /* position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0; */
+    width: 100%;
+    height: calc(100% - 5px);
+}
+
+.error {
+    display: grid;
+    justify-content: center;
+    text-align: center;
+    place-content: center;
+    height: 100%;
+}
+
+
+/* width */
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+
+/* Track */
+
+ ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+
+/* Handle */
+
+ ::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+
+/* Handle on hover */
+
+ ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* ===== Scrollbar CSS ===== */
+  /* Firefox */
+  * {
+    scrollbar-width: none;
+    scrollbar-color: #0d0c0d #1a1a1a;
+  }
+
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: #1a1a1a;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #0d0c0d;
+    border-radius: 10px;
+    border: 0px solid #121212;
+  }

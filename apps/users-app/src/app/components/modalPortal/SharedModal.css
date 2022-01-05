@@ -1,0 +1,25 @@
+.con {
+}
+
+iframe {
+  border: none;
+  border: 1px solid #eee;
+  margin: 1em;
+  padding: 0.5em;
+}
+
+.field {
+  padding: 0.5em;
+}
+
+.modal-wrapper {
+  position: fixed;
+  left: 0;
+  top: 0;
+  place-content: center;
+  display: grid;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 1000;
+}
