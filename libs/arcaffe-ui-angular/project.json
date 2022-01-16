@@ -1,0 +1,42 @@
+{
+  "projectType": "library",
+  "root": "libs/arcaffe-ui-angular",
+  "sourceRoot": "libs/arcaffe-ui-angular/src",
+  "prefix": "arcaffe",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["dist/libs/arcaffe-ui-angular"],
+      "options": {
+        "project": "libs/arcaffe-ui-angular/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/arcaffe-ui-angular/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/arcaffe-ui-angular/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/arcaffe-ui-angular"],
+      "options": {
+        "jestConfig": "libs/arcaffe-ui-angular/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/arcaffe-ui-angular/src/**/*.ts",
+          "libs/arcaffe-ui-angular/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

@@ -1,11 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  ChangeDetectorRef,
+  ApplicationRef,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { bigmaManagerDb, IMaterial } from '@arcaffe/store';
 import { wktToGeoJSON } from '@terraformer/wkt';
 import { liveQuery, Subscription } from 'dexie';
-import { BehaviorSubject } from 'rxjs';
+import { from, of } from 'rxjs';
 
 const URL_MATERIALS = 'http://localhost:8080/api/materials';
 
+const materialsObs$ = from<Array<IMaterial[]>>(
+  liveQuery(() =>
+    bigmaManagerDb.materials.where('sourceName').equals('materials').toArray()
+  ) as any
+);
+
+materialsObs$.subscribe((arr) => console.log('**__ARRIVED__**', arr));
 export interface Material {
   geo: string;
   type: string;
@@ -29,32 +43,38 @@ interface AdditionalProps {
 
 @Component({
   selector: 'arcaffe-materials-list',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './materials-list.component.html',
   styleUrls: ['./materials-list.component.less'],
 })
+
 export class MaterialsListComponent implements OnInit {
-  materials: IMaterial[] = [];
-  subscriptions!: Subscription[];
-  selectedId$ = new BehaviorSubject('');
+  materials$ = from<Array<IMaterial[]>>(
+    liveQuery(async () => {
+      const results = await bigmaManagerDb.materials
+        .where('sourceName')
+        .equals('materials')
+        .toArray();
+      console.log('inner ', results);
+      // this.appRef.tick();
+      return results;
+    }) as any
+  );
+
+  selectedId$ = liveQuery<string | undefined>(
+    async () =>
+      (
+        await bigmaManagerDb.materials
+          .where('[sourceName+isSelected]')
+          .equals(['materials', 1])
+          .first()
+      )?.id
+  );
+
+  constructor(private appRef: ApplicationRef) {}
 
   ngOnInit(): void {
-    const selectedSubscription = liveQuery(() =>
-      bigmaManagerDb.materials
-        .where('[sourceName+isSelected]')
-        .equals(['materials', 1])
-        .first()
-    ).subscribe((selectedMaterial) => {
-      console.log(selectedMaterial, '*selected*');
-      this.selectedId$.next(selectedMaterial?.id || '');
-    });
-    this.subscriptions?.push?.(selectedSubscription);
-
-    const materialsSubscription = liveQuery(() =>
-      bigmaManagerDb.materials.where('sourceName').equals('materials').toArray()
-    ).subscribe((dbMaterials) => {
-      this.materials = dbMaterials;
-    });
-    this.subscriptions?.push?.(materialsSubscription);
+    console.log('');
 
     fetch(URL_MATERIALS)
       .then((res) => res.json())
@@ -87,10 +107,6 @@ export class MaterialsListComponent implements OnInit {
         bigmaManagerDb.materials.bulkPut(newMaterials);
       });
   }
-
-  // ngOnDestroy() {
-  //   this.subscriptions.forEach((_) => _?.unsubscribe?.());
-  // }
 
   public userSelectHandler(material: IMaterial) {
     bigmaManagerDb.selectMaterialToggle(material.id);

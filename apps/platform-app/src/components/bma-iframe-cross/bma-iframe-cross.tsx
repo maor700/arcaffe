@@ -8,10 +8,31 @@ import {
   EventEmitter,
 } from '@stencil/core';
 
+const baseStyle = `<style>
+* {
+  scrollbar-width: none;
+  scrollbar-color: #3d3d3d #171717;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #171717;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #3d3d3d;
+  border-radius: 0px;
+  border: 0px solid #ffffff;
+}
+</style>`;
+
 @Component({
   tag: 'bma-iframe-cross',
   styleUrl: 'bma-iframe-cross.css',
-  shadow: true,
 })
 export class BmaIframeCross {
   @Prop() src!: string;
@@ -34,11 +55,9 @@ export class BmaIframeCross {
           response.text().then((text) => {
             const htmlWithBase = text.replace(
               /<head>((?:.|\n|\r)+?)<\/head>/,
-              `<base href="${origin}"/>$1<script>${this.scriptToInject}</script>`
+              `<base href="${origin}"/>$1<script>${this.scriptToInject}</script>${baseStyle}`
             );
             this.html = htmlWithBase;
-            const doc = new DOMParser().parseFromString(this.html, 'text/html');
-            console.log(doc);
 
             this.error = null;
           });

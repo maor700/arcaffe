@@ -18,9 +18,13 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "paths": {
+      "@arcaffe/arcaffe-ui": ["dist/libs/arcaffe-ui"],
+      "@arcaffe/arcaffe-ui/loader": ["dist/libs/arcaffe-ui/loader"],
       "@arcaffe/common-types": ["libs/common-types/src/index.ts"],
-      "@arcaffe/shared-button": ["libs/shared-button/src/index.ts"],
-      "@arcaffe/store": ["libs/store/src/index.ts"]
+      "@arcaffe/store": ["libs/store/src/index.ts"],
+      "@arcaffe/ui/loader": ["dist/libs/ui/loader"],
+      "@common-ui/angular": ["libs/arcaffe-ui-angular/src/index.ts"],
+      "@common-ui/react": ["libs/arcaffe-ui-react/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

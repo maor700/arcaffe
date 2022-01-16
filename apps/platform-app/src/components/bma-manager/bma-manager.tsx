@@ -38,7 +38,7 @@ export class BmaManager {
 
   private _iframeKidRegistration = async (name, element: HTMLBmaIframeKidElement) => {
     // register kids
-    this.services.model.iframes.upsert(name, { name, isActive: 1, displayMode: "opened" });
+    this.services.model.iframes.put({ name, isActive: 1, displayMode: "opened", ownerApp:`${name}-app` });
     const initSuccess = await element.registrationResponse({ success: true, payload: { services: {}, model: this.services.model } })
     console.log(initSuccess);
   }

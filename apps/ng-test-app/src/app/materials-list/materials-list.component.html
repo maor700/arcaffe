@@ -1,14 +1,8 @@
-<ul class="material-list-con">
-    <li (click)="userSelectHandler(item)" [ngClass]="{'item': true, 'selected': item.id === (selectedId$ |async)}" *ngFor="let item of materials; let i = index">
-        <span>{{i}} </span>
-        <span>
-      {{item.displayName}}
-    </span>
-        <span>
-      {{item.additionalProps.email}}
-    </span>
-        <span>
-      {{item.isSelected}}
-    </span>
-    </li>
-</ul>
+<div class="container">
+    <ui-list sourceName="materials">
+        <template slot="item-template">
+      <span> {{'{'}}{{'{'}} displayName {{'}'}}{{'}'}} </span>
+      <span> {{'{'}}{{'{'}} additionalProps.email {{'}'}}{{'}'}} </span>
+    </template>
+    </ui-list>
+</div>

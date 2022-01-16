@@ -29,51 +29,22 @@ iframe {
 }
 
 
-/* width */
-
-::-webkit-scrollbar {
-    width: 10px;
+* {
+  scrollbar-width: none;
+  scrollbar-color: #3d3d3d #171717;
 }
 
-
-/* Track */
-
- ::-webkit-scrollbar-track {
-    background: #f1f1f1;
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 8px;
 }
 
-
-/* Handle */
-
- ::-webkit-scrollbar-thumb {
-    background: #888;
+*::-webkit-scrollbar-track {
+  background: #171717;
 }
 
-
-/* Handle on hover */
-
- ::-webkit-scrollbar-thumb:hover {
-    background: #555;
+*::-webkit-scrollbar-thumb {
+  background-color: #3d3d3d;
+  border-radius: 0px;
+  border: 0px solid #ffffff;
 }
-
-/* ===== Scrollbar CSS ===== */
-  /* Firefox */
-  * {
-    scrollbar-width: none;
-    scrollbar-color: #0d0c0d #1a1a1a;
-  }
-
-  /* Chrome, Edge, and Safari */
-  *::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  *::-webkit-scrollbar-track {
-    background: #1a1a1a;
-  }
-
-  *::-webkit-scrollbar-thumb {
-    background-color: #0d0c0d;
-    border-radius: 10px;
-    border: 0px solid #121212;
-  }

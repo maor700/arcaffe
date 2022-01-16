@@ -36,7 +36,7 @@ export class BmaMapSourceLayer {
   private _geoClickHandler: (
     event: CustomEvent<{ geo: L.GeoJSON; id: string }>
   ) => void = ({ detail: { id } }) => {
-    bigmaManagerDb.selectMaterialToggle(id);
+    bigmaManagerDb.selectMaterialToggle(id, true);
   };
   private materialsSubscription: Subscription;
   private selectedMaterialSubscription: Subscription;

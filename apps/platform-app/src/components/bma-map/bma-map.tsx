@@ -6,10 +6,12 @@ import { liveQuery, Subscription } from 'dexie';
 import L from 'leaflet';
 //@ts-ignore
 import 'leaflet.markercluster';
+import 'leaflet-contextmenu';
+import 'leaflet-contextmenu/dist/leaflet.contextmenu.css';
 
 @Component({
   tag: 'bma-map',
-  styleUrls: ['../../../../../node_modules/leaflet/dist/leaflet.css'],
+  styleUrls: ["./bma-map.css"],
   assetsDirs: ['./images'],
 })
 export class BmaMap {
@@ -31,6 +33,26 @@ export class BmaMap {
     this.map = L.map(this.mapElm, {
       center: [41.8781, -87.6298],
       zoom: 13,
+      //@ts-ignore
+      contextmenu: true,
+      contextmenuWidth: 140,
+      contextmenuItems: [
+        {
+          text: 'Show coordinates',
+        },
+        {
+          text: 'Center map here',
+        },
+        '-',
+        {
+          text: 'Zoom in',
+          icon: 'images/zoom-in.png',
+        },
+        {
+          text: 'Zoom out',
+          icon: 'images/zoom-out.png',
+        },
+      ],
     });
     const mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
     L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

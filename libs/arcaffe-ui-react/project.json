@@ -1,0 +1,42 @@
+{
+  "root": "libs/arcaffe-ui-react",
+  "sourceRoot": "libs/arcaffe-ui-react/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:package",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/arcaffe-ui-react",
+        "tsConfig": "libs/arcaffe-ui-react/tsconfig.lib.json",
+        "project": "libs/arcaffe-ui-react/package.json",
+        "entryFile": "libs/arcaffe-ui-react/src/index.ts",
+        "external": ["react/jsx-runtime"],
+        "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+        "assets": [
+          {
+            "glob": "libs/arcaffe-ui-react/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/arcaffe-ui-react/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/arcaffe-ui-react"],
+      "options": {
+        "jestConfig": "libs/arcaffe-ui-react/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

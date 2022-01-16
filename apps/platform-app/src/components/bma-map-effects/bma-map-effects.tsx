@@ -31,7 +31,7 @@ export class BmaMapEffects {
             [northeast_lat, northeast_lng]
           ),
           {
-            duration: 0.5,
+            duration: 0.3,
             maxZoom: 4,
           }
         );

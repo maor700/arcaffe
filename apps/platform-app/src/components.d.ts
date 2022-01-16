@@ -53,6 +53,16 @@ export namespace Components {
          */
         "src": string;
     }
+    interface BmaList {
+        /**
+          * Item render function
+         */
+        "itemRenderer": (item: T) => JSX.Element;
+        /**
+          * Array of items
+         */
+        "items": T[];
+    }
     interface BmaMain {
     }
     interface BmaManager {
@@ -164,6 +174,12 @@ declare global {
         prototype: HTMLBmaIframeKidElement;
         new (): HTMLBmaIframeKidElement;
     };
+    interface HTMLBmaListElement extends Components.BmaList, HTMLStencilElement {
+    }
+    var HTMLBmaListElement: {
+        prototype: HTMLBmaListElement;
+        new (): HTMLBmaListElement;
+    };
     interface HTMLBmaMainElement extends Components.BmaMain, HTMLStencilElement {
     }
     var HTMLBmaMainElement: {
@@ -248,6 +264,7 @@ declare global {
         "app-root": HTMLAppRootElement;
         "bma-iframe-cross": HTMLBmaIframeCrossElement;
         "bma-iframe-kid": HTMLBmaIframeKidElement;
+        "bma-list": HTMLBmaListElement;
         "bma-main": HTMLBmaMainElement;
         "bma-manager": HTMLBmaManagerElement;
         "bma-map": HTMLBmaMapElement;
@@ -304,6 +321,16 @@ declare namespace LocalJSX {
           * Url address to load
          */
         "src"?: string;
+    }
+    interface BmaList {
+        /**
+          * Item render function
+         */
+        "itemRenderer"?: (item: T) => JSX.Element;
+        /**
+          * Array of items
+         */
+        "items"?: T[];
     }
     interface BmaMain {
     }
@@ -399,6 +426,7 @@ declare namespace LocalJSX {
         "app-root": AppRoot;
         "bma-iframe-cross": BmaIframeCross;
         "bma-iframe-kid": BmaIframeKid;
+        "bma-list": BmaList;
         "bma-main": BmaMain;
         "bma-manager": BmaManager;
         "bma-map": BmaMap;
@@ -423,6 +451,7 @@ declare module "@stencil/core" {
             "app-root": LocalJSX.AppRoot & JSXBase.HTMLAttributes<HTMLAppRootElement>;
             "bma-iframe-cross": LocalJSX.BmaIframeCross & JSXBase.HTMLAttributes<HTMLBmaIframeCrossElement>;
             "bma-iframe-kid": LocalJSX.BmaIframeKid & JSXBase.HTMLAttributes<HTMLBmaIframeKidElement>;
+            "bma-list": LocalJSX.BmaList & JSXBase.HTMLAttributes<HTMLBmaListElement>;
             "bma-main": LocalJSX.BmaMain & JSXBase.HTMLAttributes<HTMLBmaMainElement>;
             "bma-manager": LocalJSX.BmaManager & JSXBase.HTMLAttributes<HTMLBmaManagerElement>;
             "bma-map": LocalJSX.BmaMap & JSXBase.HTMLAttributes<HTMLBmaMapElement>;

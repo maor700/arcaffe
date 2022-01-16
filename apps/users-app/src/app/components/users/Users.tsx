@@ -1,5 +1,6 @@
 import { IUser } from '@arcaffe/common-types';
 import { IMaterial, bigmaManagerDb } from '@arcaffe/store';
+import { UiList, MyComponent } from '@common-ui/react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useEffect, useCallback, useState } from 'react';
 import { ModalPortal } from '../modalPortal/ModalPortal';
@@ -9,6 +10,7 @@ import { MdClose } from 'react-icons/md';
 // @ts-ignore
 // eslint-disable-next-line import/no-webpack-loader-syntax
 import usersCss from '!!url-loader!./Users.less';
+import './Users.less';
 import { useCssAsStringLoader } from '../modalPortal/useCssAsStringLoader';
 
 const DB = bigmaManagerDb;
@@ -21,6 +23,7 @@ export function Users() {
     [],
     []
   );
+
   useEffect(() => {
     fetch('http://localhost:8080/api/users')
       .then((res) => res.json())
@@ -42,7 +45,7 @@ export function Users() {
               content: `name:${name} email:${email} address:${street}, ${city}`,
             },
           } as GeoJSON.Feature;
-          
+
           return {
             id,
             geo: geoj,
@@ -71,19 +74,35 @@ export function Users() {
     bigmaManagerDb.materials.delete(id);
   }, []);
 
+  const itemRenderer = useCallback(
+    function ({ isSelected, additionalProps: u }: IMaterial<IUser>) {
+      return (
+        <UserItem
+          onShowDetails={showDetailsHandler}
+          key={u?.id}
+          {...u}
+          isSelected={!!isSelected}
+          onSelect={userSelectHandler}
+          onDelete={deleteHandler}
+        ></UserItem>
+      );
+    },
+    [showDetailsHandler, userSelectHandler, deleteHandler]
+  );
+
   return (
     <div className="users">
-      {users &&
-        users?.map(({ isSelected, additionalProps: u }: IMaterial<IUser>) => (
-          <UserItem
-            onShowDetails={showDetailsHandler}
-            key={u?.id}
-            {...u}
-            isSelected={!!isSelected}
-            onSelect={userSelectHandler}
-            onDelete={deleteHandler}
-          ></UserItem>
-        ))}
+      <UiList
+        onShowDetails={({ detail }) =>
+          showDetailsHandler(detail?.additionalProps)
+        } sourceName="users"
+      >
+        <template slot="item-template">
+          <span>{`{{additionalProps.name}}`}</span>
+          <span className="email">{`{{additionalProps.email}}`}</span>
+        </template>
+      </UiList>
+      {/* {users && users?.map(itemRenderer)} */}
       {showDetails && (
         <ModalPortal name="user-details" css={modalCss}>
           <div className="modal-wrapper">
