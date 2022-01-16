@@ -20,11 +20,11 @@ jobs:
         with:
           node-version: 14
 
-      - name: Install yarn
-        run: npm install -g yarn
+      # - name: Install yarn
+      #   run: npm install -g yarn
 
       - name: Install dependencies
-        run: yarn install
+        run: npm install
 
       - name: Test
-        run: yarn test:ci
+        run: npm run test --traget:affected
