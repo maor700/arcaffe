@@ -1,0 +1,63 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html {
+            color: #eee;
+            font-family: 'Segoe UI';
+            word-break: break-all;
+        }
+        
+        button {
+            background-color: rgb(8 109 109);
+            color: #eee;
+            border: none;
+            border-radius: 2px;
+            font-family: 'Segoe UI';
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <button onclick="addMaterial()">add material</button>
+    <div class="materials"></div>
+</body>
+<script>
+    const {
+        model,
+        dexie,
+        toaster
+    } = window.parent.parentApp.services;
+    const randomPoint = [31 + Math.random(), 34 + Math.random()];
+    const materialsContainer = document.querySelector(".materials")
+    dexie.liveQuery(() => model.materials.where({
+        ownerApp: gustName
+    }).toArray()).subscribe(_ => {
+        const items = _.map(_ => `<span>${Math.round(_?.id*100)}|</span>`);
+        materialsContainer.innerHTML = items.join("");
+        toaster.info("hiii" + " from " + gustName);
+    })
+
+    function addMaterial() {
+        model.materials.put({
+            id: Math.random(),
+            ownerApp: gustName,
+            type: "post",
+            sourceName: "SOME_SOURCE",
+            geo: randomPoint,
+            additionalProps: {
+                a: 1,
+                b: "test"
+            },
+            startTime: new Date(),
+            endTime: new Date(),
+        })
+    }
+</script>
+
+</html>

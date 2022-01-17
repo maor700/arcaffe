@@ -1,0 +1,1 @@
+import{r as s,h as t}from"./p-989e53c2.js";let r=class{constructor(t){s(this,t)}render(){var s;return t("div",{class:"list-con"},null===(s=this.items)||void 0===s?void 0:s.map(this.itemRenderer))}};r.style=":host{display:block}";export{r as bma_list}

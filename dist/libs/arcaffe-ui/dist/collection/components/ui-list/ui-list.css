@@ -1,0 +1,37 @@
+:host {
+  display: block;
+}
+
+.material-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5em;
+  border-bottom: 1px solid gray;
+}
+.material-item.selected {
+  background-color: rgba(0, 255, 255, 0.561);
+}
+.material-item.selected button.delete {
+  background-color: #c02d2d;
+}
+.material-item.selected button.details {
+  background-color: #57c02d;
+}
+.material-item .btns {
+  display: flex;
+  gap: 0.3em;
+}
+.material-item button {
+  background-color: transparent;
+  border: 1px solid transparent;
+  color: #eee;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+.material-item button:hover {
+  background-color: #c02d2d;
+}
+.material-item button.details:hover {
+  background-color: rgba(86, 200, 40, 0.774);
+}

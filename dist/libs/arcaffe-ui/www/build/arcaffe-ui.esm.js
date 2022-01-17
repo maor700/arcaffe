@@ -1,0 +1,1 @@
+import{p as e,b as s}from"./p-96f7121f.js";(()=>{const s=import.meta.url,t={};return""!==s&&(t.resourcesUrl=new URL(".",s).href),e(t)})().then((e=>s([["p-9feb6e3f",[[1,"my-component",{first:[1],middle:[1],last:[1],testFunc:[64]}]]],["p-14980fd7",[[0,"ui-list",{sourceName:[1,"source-name"],materials:[32],selected:[32]}]]]],e)));

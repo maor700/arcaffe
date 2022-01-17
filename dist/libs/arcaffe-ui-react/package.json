@@ -1,0 +1,7 @@
+{
+  "name": "@common-ui/react",
+  "version": "0.0.1",
+  "main": "./arcaffe-ui-react.umd.js",
+  "module": "./arcaffe-ui-react.esm.js",
+  "typings": "./index.d.ts"
+}
