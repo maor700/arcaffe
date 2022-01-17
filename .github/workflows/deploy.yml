@@ -46,7 +46,7 @@ jobs:
         run: yarn install
 
       - name: Build Demo
-        run: yarn build
+        run: yarn nx build --prod --with-deps --base=main
 
       - name: Deploy platform 🚀
         uses: JamesIves/github-pages-deploy-action@3.7.1
