@@ -42,7 +42,7 @@ jobs:
         run: yarn install
 
       - name: Test
-        run: yarn test:ci
+        run: yarn test
 
       # - name: Raise version of affected libraries
       #   run: ./tools/raiseVersion.sh
