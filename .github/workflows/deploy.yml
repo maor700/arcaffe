@@ -4,6 +4,8 @@ on:
   push:
     tags:
       - v*
+    branches:
+      - main
 
 jobs:
   deploy:
@@ -53,7 +55,7 @@ jobs:
           BRANCH: gh-pages # The branch the action should deploy to.
           FOLDER: dist/apps/platform-app # The folder the action should deploy.
           CLEAN: true # Automatically remove deleted files from the deploy branch
-      
+
       - name: Deploy users-app 🚀
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
@@ -61,7 +63,7 @@ jobs:
           BRANCH: gh-pages # The branch the action should deploy to.
           FOLDER: dist/apps/users-app # The folder the action should deploy.
           CLEAN: true # Automatically remove deleted files from the deploy branch
-      
+
       - name: Deploy materials-app 🚀
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
@@ -69,7 +71,7 @@ jobs:
           BRANCH: gh-pages # The branch the action should deploy to.
           FOLDER: dist/apps/materials-app # The folder the action should deploy.
           CLEAN: true # Automatically remove deleted files from the deploy branch
-      
+
       - name: Deploy timeline 🚀
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
