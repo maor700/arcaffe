@@ -1,0 +1,1 @@
+import{r,h as e,H as l}from"./p-989e53c2.js";let t=class{constructor(e){r(this,e)}render(){return e(l,null,e("stencil-router",null,e("stencil-route-link",{url:"/work-surface"},"work"),e("stencil-route-switch",null,e("stencil-route",{url:"/work-surface",routeRender:()=>e("div",null,"HII!")}))))}};t.style=":host{display:block}";export{t as app_root}
