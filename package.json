@@ -40,7 +40,6 @@
     "dexie-react-hooks": "^1.0.7",
     "interactjs": "^1.10.11",
     "leaflet": "^1.7.1",
-    "leaflet-contextmenu": "^1.4.0",
     "leaflet.markercluster": "^1.5.3",
     "moment": "^2.29.1",
     "mustache": "^4.2.0",

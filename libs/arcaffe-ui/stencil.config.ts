@@ -18,7 +18,7 @@ export const config: Config = {
   outputTargets: [
     reactOutputTarget({
       componentCorePackage: '@arcaffe/arcaffe-ui',
-      proxiesFile: '../../libs/arcaffe-ui-react/src/generated/components.ts',
+      proxiesFile: '../../../libs/arcaffe-ui-react/src/generated/components.ts',
       includeDefineCustomElements: true,
     }),
     {

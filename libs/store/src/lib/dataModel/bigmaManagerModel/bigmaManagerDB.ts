@@ -1,6 +1,6 @@
 import Dexie, { Table } from 'dexie';
 import { IUser } from '@arcaffe/common-types';
-import GeoJSON from "geojson";
+import GeoJSON from 'geojson';
 import { IMaterial, ISource, ISourceSchema } from '../DataModel';
 
 interface AppProperties {
@@ -12,11 +12,6 @@ interface AppProperties {
 }
 
 export class BigmaManagerDB extends Dexie {
-  // app: {
-  //     set: (key: keyof AppProperties, value: any) => Promise<boolean>;
-  //     get: <T = any>(key: keyof AppProperties) => Promise<T>;
-  //     delete: (key: keyof AppProperties) => Promise<boolean>;
-  // }
   app: { [K in keyof AppProperties]?: any };
 
   iframes!: ExtendedTable<IframeItem>;
@@ -190,4 +185,3 @@ const isRecordExist = async (
 export const bigmaManagerDb = new BigmaManagerDB();
 
 console.log(bigmaManagerDb);
-

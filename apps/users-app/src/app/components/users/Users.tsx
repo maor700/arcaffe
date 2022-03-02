@@ -1,5 +1,5 @@
 import { IUser } from '@arcaffe/common-types';
-import { IMaterial, bigmaManagerDb } from '@arcaffe/store';
+import { IMaterial, bigmaManagerDb, ISource } from '@arcaffe/store';
 import { UiList, MyComponent } from '@common-ui/react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useEffect, useCallback, useState } from 'react';
@@ -12,6 +12,12 @@ import { MdClose } from 'react-icons/md';
 import usersCss from '!!url-loader!./Users.less';
 import './Users.less';
 import { useCssAsStringLoader } from '../modalPortal/useCssAsStringLoader';
+
+const DEFAULT_USERS_SOURCE: ISource = {
+  name: 'users',
+  color: 'blue',
+  ownerApp: 'users',
+};
 
 const DB = bigmaManagerDb;
 
@@ -58,6 +64,13 @@ export function Users() {
             endTime,
           } as IMaterial<IUser>;
         });
+
+        DB.sources
+          .get('users')
+          .then((tree) =>
+            !tree ? DB.sources.add(DEFAULT_USERS_SOURCE) : null
+          );
+
         DB.materials.bulkPut(usersMaterials);
       });
   }, []);
@@ -95,7 +108,8 @@ export function Users() {
       <UiList
         onShowDetails={({ detail }) =>
           showDetailsHandler(detail?.additionalProps)
-        } sourceName="users"
+        }
+        sourceName="users"
       >
         <template slot="item-template">
           <span>{`{{additionalProps.name}}`}</span>

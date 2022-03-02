@@ -1,21 +1,24 @@
 import {
   Component,
   OnInit,
-  AfterViewInit,
-  ChangeDetectorRef,
   ApplicationRef,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { bigmaManagerDb, IMaterial } from '@arcaffe/store';
+import { bigmaManagerDb as DB, IMaterial, ISource } from '@arcaffe/store';
 import { wktToGeoJSON } from '@terraformer/wkt';
-import { liveQuery, Subscription } from 'dexie';
-import { from, of } from 'rxjs';
+import { liveQuery } from 'dexie';
+import { from } from 'rxjs';
 
 const URL_MATERIALS = 'http://localhost:8080/api/materials';
+const DEFAULT_MATERIALS_SOURCE: ISource = {
+  name: 'materials',
+  color: 'green',
+  ownerApp: 'materials',
+};
 
 const materialsObs$ = from<Array<IMaterial[]>>(
   liveQuery(() =>
-    bigmaManagerDb.materials.where('sourceName').equals('materials').toArray()
+    DB.materials.where('sourceName').equals('materials').toArray()
   ) as any
 );
 
@@ -47,11 +50,10 @@ interface AdditionalProps {
   templateUrl: './materials-list.component.html',
   styleUrls: ['./materials-list.component.less'],
 })
-
 export class MaterialsListComponent implements OnInit {
   materials$ = from<Array<IMaterial[]>>(
     liveQuery(async () => {
-      const results = await bigmaManagerDb.materials
+      const results = await DB.materials
         .where('sourceName')
         .equals('materials')
         .toArray();
@@ -64,7 +66,7 @@ export class MaterialsListComponent implements OnInit {
   selectedId$ = liveQuery<string | undefined>(
     async () =>
       (
-        await bigmaManagerDb.materials
+        await DB.materials
           .where('[sourceName+isSelected]')
           .equals(['materials', 1])
           .first()
@@ -104,11 +106,16 @@ export class MaterialsListComponent implements OnInit {
             additionalProps: additionalProps,
           } as IMaterial;
         });
-        bigmaManagerDb.materials.bulkPut(newMaterials);
+        DB.sources
+          .get('materials')
+          .then((tree) =>
+            !tree ? DB.sources.add(DEFAULT_MATERIALS_SOURCE) : null
+          );
+        DB.materials.bulkPut(newMaterials);
       });
   }
 
   public userSelectHandler(material: IMaterial) {
-    bigmaManagerDb.selectMaterialToggle(material.id);
+    DB.selectMaterialToggle(material.id);
   }
 }
