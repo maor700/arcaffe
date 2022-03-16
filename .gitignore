@@ -41,3 +41,5 @@ Thumbs.db
 .angular
 libs/arcaffe-ui-react/**/generated
 libs/arcaffe-ui-angular/**/generated
+libs/multiversy-react/**/generated
+libs/multiversy-angular/**/generated

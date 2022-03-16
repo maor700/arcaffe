@@ -1,0 +1,42 @@
+{
+  "projectType": "library",
+  "root": "libs/multiversy-angular",
+  "sourceRoot": "libs/multiversy-angular/src",
+  "prefix": "arcaffe",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["dist/libs/multiversy-angular"],
+      "options": {
+        "project": "libs/multiversy-angular/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/multiversy-angular/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/multiversy-angular/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/multiversy-angular"],
+      "options": {
+        "jestConfig": "libs/multiversy-angular/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/multiversy-angular/src/**/*.ts",
+          "libs/multiversy-angular/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

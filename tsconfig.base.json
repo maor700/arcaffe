@@ -24,7 +24,11 @@
       "@arcaffe/store": ["libs/store/src/index.ts"],
       "@arcaffe/ui/loader": ["dist/libs/ui/loader"],
       "@common-ui/angular": ["libs/arcaffe-ui-angular/src/index.ts"],
-      "@common-ui/react": ["libs/arcaffe-ui-react/src/index.ts"]
+      "@common-ui/react": ["libs/arcaffe-ui-react/src/index.ts"],
+      "@multiversy/ui": ["dist/libs/multiversy"],
+      "@multiversy/ui-angular": ["libs/multiversy-angular/src/index.ts"],
+      "@multiversy/ui-react": ["libs/multiversy-react/src/index.ts"],
+      "@multiversy/ui/loader": ["dist/libs/multiversy/loader"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -1,0 +1,43 @@
+{
+  "root": "libs/multiversy-react",
+  "sourceRoot": "libs/multiversy-react/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:package",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/multiversy-react",
+        "tsConfig": "libs/multiversy-react/tsconfig.lib.json",
+        "project": "libs/multiversy-react/package.json",
+        "entryFile": "libs/multiversy-react/src/index.ts",
+        "external": ["react/jsx-runtime"],
+        "rollupConfig": "@nrwl/react/plugins/bundle-rollup",
+        "compiler": "babel",
+        "assets": [
+          {
+            "glob": "libs/multiversy-react/README.md",
+            "input": ".",
+            "output": "."
+          }
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/multiversy-react/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/multiversy-react"],
+      "options": {
+        "jestConfig": "libs/multiversy-react/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

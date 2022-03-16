@@ -125,6 +125,8 @@ export namespace Components {
          */
         "windowName": string;
     }
+    interface BmaWorkSurfece {
+    }
     interface OneHeader {
     }
     interface OneTab {
@@ -228,6 +230,12 @@ declare global {
         prototype: HTMLBmaWindowHeaderElement;
         new (): HTMLBmaWindowHeaderElement;
     };
+    interface HTMLBmaWorkSurfeceElement extends Components.BmaWorkSurfece, HTMLStencilElement {
+    }
+    var HTMLBmaWorkSurfeceElement: {
+        prototype: HTMLBmaWorkSurfeceElement;
+        new (): HTMLBmaWorkSurfeceElement;
+    };
     interface HTMLOneHeaderElement extends Components.OneHeader, HTMLStencilElement {
     }
     var HTMLOneHeaderElement: {
@@ -273,6 +281,7 @@ declare global {
         "bma-map-source-layer": HTMLBmaMapSourceLayerElement;
         "bma-window": HTMLBmaWindowElement;
         "bma-window-header": HTMLBmaWindowHeaderElement;
+        "bma-work-surfece": HTMLBmaWorkSurfeceElement;
         "one-header": HTMLOneHeaderElement;
         "one-tab": HTMLOneTabElement;
         "one-tabs": HTMLOneTabsElement;
@@ -402,6 +411,8 @@ declare namespace LocalJSX {
          */
         "windowName"?: string;
     }
+    interface BmaWorkSurfece {
+    }
     interface OneHeader {
     }
     interface OneTab {
@@ -435,6 +446,7 @@ declare namespace LocalJSX {
         "bma-map-source-layer": BmaMapSourceLayer;
         "bma-window": BmaWindow;
         "bma-window-header": BmaWindowHeader;
+        "bma-work-surfece": BmaWorkSurfece;
         "one-header": OneHeader;
         "one-tab": OneTab;
         "one-tabs": OneTabs;
@@ -460,6 +472,7 @@ declare module "@stencil/core" {
             "bma-map-source-layer": LocalJSX.BmaMapSourceLayer & JSXBase.HTMLAttributes<HTMLBmaMapSourceLayerElement>;
             "bma-window": LocalJSX.BmaWindow & JSXBase.HTMLAttributes<HTMLBmaWindowElement>;
             "bma-window-header": LocalJSX.BmaWindowHeader & JSXBase.HTMLAttributes<HTMLBmaWindowHeaderElement>;
+            "bma-work-surfece": LocalJSX.BmaWorkSurfece & JSXBase.HTMLAttributes<HTMLBmaWorkSurfeceElement>;
             "one-header": LocalJSX.OneHeader & JSXBase.HTMLAttributes<HTMLOneHeaderElement>;
             "one-tab": LocalJSX.OneTab & JSXBase.HTMLAttributes<HTMLOneTabElement>;
             "one-tabs": LocalJSX.OneTabs & JSXBase.HTMLAttributes<HTMLOneTabsElement>;

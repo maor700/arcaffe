@@ -4,6 +4,7 @@ import { UiList, MyComponent } from '@common-ui/react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useEffect, useCallback, useState } from 'react';
 import { ModalPortal } from '../modalPortal/ModalPortal';
+import { MtvModalPortal } from '@multiversy/ui-react';
 import { UserItem } from './userItem/UserItem';
 import { MdClose } from 'react-icons/md';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -12,6 +13,7 @@ import { MdClose } from 'react-icons/md';
 import usersCss from '!!url-loader!./Users.less';
 import './Users.less';
 import { useCssAsStringLoader } from '../modalPortal/useCssAsStringLoader';
+import ReactDOM from 'react-dom';
 
 const DEFAULT_USERS_SOURCE: ISource = {
   name: 'users',
@@ -23,6 +25,7 @@ const DB = bigmaManagerDb;
 
 export function Users() {
   const [showDetails, setShowDetails] = useState<IUser | null>(null);
+  const [modalCon, setModalCon] = useState<HTMLElement | null>(null);
   const modalCss = useCssAsStringLoader([usersCss]);
   const users = useLiveQuery(
     () => DB.materials.where('sourceName').equals('users').toArray(),
@@ -118,46 +121,60 @@ export function Users() {
       </UiList>
       {/* {users && users?.map(itemRenderer)} */}
       {showDetails && (
-        <ModalPortal name="user-details" css={modalCss}>
-          <div className="modal-wrapper">
-            <div className="details-content">
-              <MdClose
-                size="1.5em"
-                onClick={() => setShowDetails(null)}
-                className="close-btn"
-              />
-              <h3>User Details</h3>
-              <div className="details-fields">
-                <div className="row">
-                  <div className="field-name">Name:</div>
-                  <div className="field-value">{showDetails?.name}</div>
-                </div>
-                <div className="row">
-                  <div className="field-name">Phone:</div>
-                  <div className="field-value">{showDetails?.phone}</div>
-                </div>
-                <div className="row">
-                  <div className="field-name">Email:</div>
-                  <div className="field-value">{showDetails?.phone}</div>
-                </div>
-                <div className="row">
-                  <div className="field-name">Address:</div>
-                  <div className="field-value">
-                    {showDetails?.address.suite}
+        <MtvModalPortal
+          onElementLandedInTarget={({ detail }) => {
+            setModalCon(detail.modalContentElm);
+          }}
+          nameId="user-details"
+        >
+          {modalCon
+            ? ReactDOM.createPortal(
+                <div className="modal-wrapper">
+                  <div className="details-content">
+                    <MdClose
+                      size="1.5em"
+                      onClick={() => setShowDetails(null)}
+                      className="close-btn"
+                    />
+                    <h3>User Details</h3>
+                    <div className="details-fields">
+                      <div className="row">
+                        <div className="field-name">Name:</div>
+                        <div className="field-value">{showDetails?.name}</div>
+                      </div>
+                      <div className="row">
+                        <div className="field-name">Phone:</div>
+                        <div className="field-value">{showDetails?.phone}</div>
+                      </div>
+                      <div className="row">
+                        <div className="field-name">Email:</div>
+                        <div className="field-value">{showDetails?.phone}</div>
+                      </div>
+                      <div className="row">
+                        <div className="field-name">Address:</div>
+                        <div className="field-value">
+                          {showDetails?.address.suite}
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="field-name">Company:</div>
+                        <div className="field-value">
+                          {showDetails?.company.name}
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="field-name">Website:</div>
+                        <div className="field-value">
+                          {showDetails?.website}
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="row">
-                  <div className="field-name">Company:</div>
-                  <div className="field-value">{showDetails?.company.name}</div>
-                </div>
-                <div className="row">
-                  <div className="field-name">Website:</div>
-                  <div className="field-value">{showDetails?.website}</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </ModalPortal>
+                </div>,
+                modalCon
+              )
+            : null}
+        </MtvModalPortal>
       )}
     </div>
   );

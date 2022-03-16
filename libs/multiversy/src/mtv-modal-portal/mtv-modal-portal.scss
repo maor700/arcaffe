@@ -1,0 +1,10 @@
+.modal-con {
+    position: fixed;
+    display: grid;
+    z-index: 1000;
+    place-content: center;
+    height: -webkit-fill-available;
+    width: -webkit-fill-available;
+    top: 0;
+    left: 0;
+}

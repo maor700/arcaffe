@@ -70,35 +70,7 @@ export class BmaMain {
                       class="con"
                       style={{ display: 'flex', height: '100%' }}
                     >
-                      <bma-window style={{ width: '100%', height: '100%' }}>
-                        <bma-window-header
-                          slot="header"
-                          class="header"
-                          windowName="משתמשים"
-                        ></bma-window-header>
-                        <bma-iframe-kid
-                          slot="main"
-                          class="main"
-                          src={'http://localhost:3001/'}
-                          name="users"
-                        ></bma-iframe-kid>
-                      </bma-window>
-                      <bma-window style={{ width: '100%', height: '100%' }}>
-                        <bma-window-header
-                          slot="header"
-                          class="header"
-                          windowName="Materials"
-                        ></bma-window-header>
-                        <bma-iframe-kid
-                          slot="main"
-                          class="main"
-                          src={'http://localhost:3005/'}
-                          name="materials"
-                        ></bma-iframe-kid>
-                      </bma-window>
-                      <bma-window style={{ width: '100%', height: '100%' }}>
-                        <bma-map slot="main" />
-                      </bma-window>
+                      <bma-work-surfece />
                     </div>
                   </stencil-route>
                   <stencil-route url="/display-surface">
@@ -112,21 +84,7 @@ export class BmaMain {
               </stencil-router>
             </main>
           </div>
-          <div class="footer">
-            <bma-window style={{ width: '100%', height: '400px' }}>
-              <bma-window-header
-                slot="header"
-                class="header"
-                windowName="ציר זמן"
-              ></bma-window-header>
-              <bma-iframe-kid
-                slot="main"
-                class="main"
-                src={'http://localhost:3002/'}
-                name="users"
-              ></bma-iframe-kid>
-            </bma-window>
-          </div>
+          <div class="footer"></div>
         </bma-manager>
       </Host>
     );

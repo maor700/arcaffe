@@ -33,7 +33,7 @@ export class BmaMap {
       zoom: 13,
     });
     const mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
-    L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
       attribution: '&copy; ' + mapLink + ' Contributors',
       maxZoom: 18,
     }).addTo(this.map);
