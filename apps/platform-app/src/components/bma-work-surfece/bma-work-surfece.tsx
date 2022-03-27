@@ -1,32 +1,63 @@
-import { Component, h, Host, Element } from '@stencil/core';
-
-import {
-  ComponentContainer,
-  GoldenLayout,
-  LayoutConfig,
-} from 'golden-layout/dist/esm';
+import { bigmaManagerDb, ILayoutRecord } from '@arcaffe/store';
+import { Component, h, Host, Element, State } from '@stencil/core';
+import { liveQuery } from 'dexie';
+import { ComponentContainer, GoldenLayout } from 'golden-layout/dist/esm';
+import { LayoutConfig, RootItemConfig } from 'golden-layout/dist/types';
+import { layoutStateChanged } from '../../globals/channels';
 
 @Component({
-  assetsDirs:["./img"],
+  assetsDirs: ['./img'],
   tag: 'bma-work-surfece',
   styleUrl: 'bma-work-surfece.less',
 })
 export class BmaWorkSurfece {
+  @State() layoutChanged: ILayoutRecord[];
+  @State() layoutCurrentState: string = null;
+  @State() loaded = false;
   @Element() elm;
+  private myLayout;
+
+  componentWillLoad() {
+    this.myLayout = new GoldenLayout(this.elm);
+    this.myLayout.registerComponentFactoryFunction('users', users);
+    this.myLayout.registerComponentFactoryFunction('materials', materials);
+    this.myLayout.registerComponentFactoryFunction('timeline', timeline);
+    this.myLayout.registerComponentFactoryFunction('chart', chart);
+    this.myLayout.registerComponentFactoryFunction('map', map);
+
+    liveQuery(async () => {
+      return await bigmaManagerDb.app.layout;
+    }).subscribe((layoutRecord: ILayoutRecord) => {
+      this.myLayout.loadLayout(layoutRecord?.layout);
+      this.layoutCurrentState = JSON.stringify(layoutRecord?.layout);
+    });
+
+    this.myLayout.on('stateChanged', async () => {
+      if (!this.loaded) return;
+      console.log('changed');
+
+      const newState: LayoutConfig = this.myLayout?.toConfig();
+      const newStateStr = JSON.stringify(newState);
+      if (newStateStr !== this.layoutCurrentState) {
+        layoutStateChanged.postMessage(newState);
+        this.myLayout.updateSize();
+        this.layoutCurrentState = newStateStr;
+      }
+    });
+
+    const observer = new ResizeObserver(() => {
+      this.myLayout.updateSize();
+    });
+    observer.observe(this.elm);
+  }
 
   componentDidLoad() {
-    const myLayout = new GoldenLayout(this.elm);
-    myLayout.registerComponentFactoryFunction('משתמשים', users);
-    myLayout.registerComponentFactoryFunction('materials', materials);
-    myLayout.registerComponentFactoryFunction('timeline', timeline);
-    myLayout.registerComponentFactoryFunction('chart', chart);
-    myLayout.registerComponentFactoryFunction('map', map);
-    myLayout.loadLayout(config);
+    this.loaded = true;
   }
 
   render() {
     return (
-      <Host style={{direction:"ltr",width:"100%", height:"100%"}}></Host>
+      <Host style={{ direction: 'ltr', width: '100%', height: '100%' }}></Host>
     );
   }
 }
@@ -92,7 +123,16 @@ function map(container: ComponentContainer) {
   return;
 }
 
-const config: LayoutConfig = {
+bigmaManagerDb.on('populate', async () => {
+  bigmaManagerDb.layouts.bulkAdd([
+    { name: 'base layout', layout: { root: config_1 } },
+    { name: 'lists and map', layout: { root: config_2 } },
+  ]);
+  bigmaManagerDb.app.layout = { name: 'base layout', layout: config_1 };
+});
+
+let config_1: RootItemConfig = {
+  type: 'row',
   content: [
     {
       type: 'row',
@@ -102,33 +142,37 @@ const config: LayoutConfig = {
           content: [
             {
               type: 'row',
-              height:75,
+              height: 75,
               content: [
                 {
                   type: 'stack',
-                  width:70,
+                  width: 70,
                   content: [
                     {
                       type: 'component',
+                      componentType: 'map',
                       componentName: 'map',
                     },
                     {
                       type: 'component',
+                      componentType: 'chart',
                       componentName: 'chart',
                     },
                   ],
                 },
                 {
                   type: 'stack',
-                  width:30,
+                  width: 30,
                   content: [
                     {
                       type: 'component',
+                      componentType: 'users',
                       componentName: 'משתמשים',
                     },
                     {
                       type: 'component',
-                      componentName: 'materials',
+                      componentType: 'materials',
+                      componentName: 'חומרים',
                     },
                   ],
                 },
@@ -136,7 +180,8 @@ const config: LayoutConfig = {
             },
             {
               type: 'component',
-              componentName: 'timeline',
+              componentType: 'timeline',
+              componentName: 'ציר זמן',
               height: 25,
             },
           ],
@@ -144,4 +189,58 @@ const config: LayoutConfig = {
       ],
     },
   ],
-} as LayoutConfig;
+};
+
+let config_2: RootItemConfig = {
+  type: 'row',
+  content: [
+    {
+      type: 'row',
+      content: [
+        {
+          type: 'column',
+          content: [
+            {
+              type: 'row',
+              height: 75,
+              content: [
+                {
+                  type: 'stack',
+                  width: 30,
+                  content: [
+                    {
+                      type: 'component',
+                      componentType: 'users',
+                      componentName: 'users',
+                    },
+                    {
+                      type: 'component',
+                      componentType: 'materials',
+                      componentName: 'חומרים',
+                    },
+                  ],
+                },
+                {
+                  type: 'stack',
+                  width: 70,
+                  content: [
+                    {
+                      type: 'component',
+                      componentType: 'map',
+                      componentName: 'map',
+                    },
+                    {
+                      type: 'component',
+                      componentType: 'chart',
+                      componentName: 'chart',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};

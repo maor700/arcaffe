@@ -39,7 +39,7 @@
     "core-js": "^3.6.5",
     "dexie": "^3.2.0",
     "dexie-react-hooks": "^1.0.7",
-    "golden-layout": "^2.5.0",
+    "golden-layout": "2.3.0",
     "interactjs": "^1.10.11",
     "leaflet": "^1.7.1",
     "leaflet.markercluster": "^1.5.3",

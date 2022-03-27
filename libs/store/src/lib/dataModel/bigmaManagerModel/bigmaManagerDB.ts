@@ -2,6 +2,8 @@ import Dexie, { Table } from 'dexie';
 import { IUser } from '@arcaffe/common-types';
 import GeoJSON from 'geojson';
 import { IMaterial, ISource, ISourceSchema } from '../DataModel';
+import { LayoutConfig } from 'golden-layout/dist/types';
+
 
 interface AppProperties {
   appName: string;
@@ -9,25 +11,28 @@ interface AppProperties {
   authToken: string;
   activeMission: string;
   mapArea: string;
+  layout: ILayoutRecord;
 }
 
 export class BigmaManagerDB extends Dexie {
   app: { [K in keyof AppProperties]?: any };
 
   iframes!: ExtendedTable<IframeItem>;
-  filters!: ExtendedTable<IframeItem>;
-  missions!: ExtendedTable<IframeItem>;
+  filters!: ExtendedTable<Ifilter>;
+  layouts!: ExtendedTable<ILayoutRecord>;
+  missions!: ExtendedTable<IMission>;
   _appTable: Dexie.Table;
   sources!: Table<ISource>;
   materials!: Table<IMaterial>;
 
   constructor() {
     super('BigmaManagerDB');
-    this.version(5).stores({
+    this.version(7).stores({
       app: '&key, value',
       iframes:
         '&name,isActive,ownerApp,displayMode,detached,size,position,resizable,detachable,closeable',
       filters: '&name,isActive,ownerApp,displayName,icon',
+      layouts: '&name',
       missions: '&id, name,id,data,members',
       sources:
         '&name, ownerApp,displayName,schema,isHiddenFromMap,isHiddenFromTimeline',
@@ -133,6 +138,11 @@ class Ifilter<T = any> {
   displayName!: string;
   icon!: string; //base64
   value!: T;
+}
+
+export class ILayoutRecord {
+  name!: string;
+  layout!: LayoutConfig;
 }
 
 class IMission {

@@ -63,25 +63,9 @@ export class BmaMain {
           </div>
           <div class="main">
             <main style={{ height: '100%' }}>
-              <stencil-router>
-                <stencil-route-switch>
-                  <stencil-route url="/work-surface">
-                    <div
-                      class="con"
-                      style={{ display: 'flex', height: '100%' }}
-                    >
-                      <bma-work-surfece />
-                    </div>
-                  </stencil-route>
-                  <stencil-route url="/display-surface">
-                    משטח הצגה
-                  </stencil-route>
-                  <stencil-route url="/files">קבצים</stencil-route>
-                  <stencil-route url="/mission-activity">
-                    פעילות במשימה
-                  </stencil-route>
-                </stencil-route-switch>
-              </stencil-router>
+              <div class="con" style={{ display: 'flex', height: '100%' }}>
+                <bma-work-surfece />
+              </div>
             </main>
           </div>
           <div class="footer"></div>

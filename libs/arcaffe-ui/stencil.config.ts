@@ -27,6 +27,10 @@ export const config: Config = {
       dir: '../../dist/libs/arcaffe-ui/dist',
     },
     {
+      type: 'dist-custom-elements',
+      autoDefineCustomElements:true
+    },
+    {
       type: 'www',
       dir: '../../dist/libs/arcaffe-ui/www',
       serviceWorker: null, // disable service workers
