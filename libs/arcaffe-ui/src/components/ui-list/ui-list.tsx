@@ -1,4 +1,4 @@
-import { bigmaManagerDb, IMaterial } from '@arcaffe/store';
+import { bigmaManagerDb, IFilteredMaterial, IMaterial } from '@arcaffe/store';
 import {
   Component,
   Element,
@@ -28,7 +28,7 @@ export class UiList {
    */
   @Prop() sourceName: string;
 
-  @State() materials: IMaterial[] = [];
+  @State() filteredMaterials: IFilteredMaterial[] = [];
 
   @State() selected: string;
 
@@ -65,12 +65,12 @@ export class UiList {
 
     this.subscribers.push(
       liveQuery(() =>
-        bigmaManagerDb.materials
+        bigmaManagerDb.filteredMaterials
           .where('sourceName')
           .equals(this.sourceName)
           .toArray()
       ).subscribe((materials) => {
-        this.materials = materials;
+        this.filteredMaterials = materials;
       })
     );
 
@@ -78,7 +78,7 @@ export class UiList {
       liveQuery<string>(
         async () =>
           (
-            await bigmaManagerDb.materials
+            await bigmaManagerDb.filteredMaterials
               .where('[sourceName+isSelected]')
               .equals([this.sourceName, 1])
               .first()
@@ -104,7 +104,7 @@ export class UiList {
     return `item-${id}`;
   }
 
-  selectHandler = (material: IMaterial) => {
+  selectHandler = (material: IFilteredMaterial) => {
     DB.selectMaterialToggle(material.id);
   };
 
@@ -117,7 +117,7 @@ export class UiList {
   };
 
   render() {
-    const items = this.materials?.map((material) => {
+    const items = this.filteredMaterials?.map((material) => {
       const itemCustomContent = render(this.itemTemplate, material);
       return (
         <div

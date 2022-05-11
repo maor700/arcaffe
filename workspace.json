@@ -20,6 +20,7 @@
     "timeline": "apps/timeline",
     "timeline-e2e": "apps/timeline-e2e",
     "users-app": "apps/users-app",
-    "users-app-e2e": "apps/users-app-e2e"
+    "users-app-e2e": "apps/users-app-e2e",
+    "utils": "libs/utils"
   }
 }

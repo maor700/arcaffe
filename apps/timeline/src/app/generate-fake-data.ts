@@ -1,5 +1,5 @@
 import { liveQuery } from 'dexie';
-import { bigmaManagerDb, IMaterial, ISource } from '@arcaffe/store';
+import { bigmaManagerDb, IFilteredMaterial, IMaterial, ISource } from '@arcaffe/store';
 import { from, map } from 'rxjs';
 import { IUser } from '@arcaffe/common-types';
 
@@ -43,7 +43,7 @@ const DEFAULT_ITEM: Item = {
 export const groupsAndItems$ = from(
   liveQuery(async () => [
     await bigmaManagerDb.sources.toArray(),
-    await bigmaManagerDb.materials.toArray(),
+    await bigmaManagerDb.filteredMaterials.toArray(),
   ])
 ).pipe(
   map(([allSources, allMaterials]) => {
@@ -54,7 +54,7 @@ export const groupsAndItems$ = from(
       return sum;
     }, {} as any);
 
-    const items = (allMaterials as IMaterial<IUser>[]).map<Item>((m) => {
+    const items = (allMaterials as IFilteredMaterial<IUser>[]).map<Item>((m) => {
       const {
         id,
         sourceName,

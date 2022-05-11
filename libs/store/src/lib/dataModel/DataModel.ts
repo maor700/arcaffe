@@ -37,12 +37,17 @@ export interface IMaterial<T = any> {
   type: string;
   startTime?: Date;
   endTime?: Date;
+  long?:number,
+  lat?:number,
   geo?: GeoJSON.Feature;
   drawStyle?: any;
   onMaterialClick?: string; //serialized function
   additionalProps: T;
+}
+
+export interface IFilteredMaterial<T = any> extends IMaterial<T>{
   isSelected?: 1 | 0;
-  visibilityOnMap?: 'solo' | 'on' | 'off';
+  visibilityOnMap: 'solo' | 'on' | 'off';
 }
 
 interface IUser {
@@ -52,13 +57,13 @@ interface IUser {
   hirarchy: string;
 }
 
-export interface Ifilter<T = any> {
+export interface IFilter<T = any> {
   name: string;
   isActive: number;
+  ownerApp:string;
   displayName: string;
   icon: string; //base64
   value: T;
-  getValue: (value: T) => T;
 }
 
 export interface IIframeItem {

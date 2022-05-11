@@ -1,5 +1,5 @@
 import { IUser } from '@arcaffe/common-types';
-import { IMaterial, bigmaManagerDb, ISource } from '@arcaffe/store';
+import { IMaterial, bigmaManagerDb, BigmaManagerDB, ISource, IFilteredMaterial } from '@arcaffe/store';
 import { UiList, MyComponent } from '@common-ui/react';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useEffect, useCallback, useState } from 'react';
@@ -7,6 +7,8 @@ import { ModalPortal } from '../modalPortal/ModalPortal';
 import { MtvModalPortal } from '@multiversy/ui-react';
 import { UserItem } from './userItem/UserItem';
 import { MdClose } from 'react-icons/md';
+import centroid from "@turf/centroid";
+
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 // eslint-disable-next-line import/no-webpack-loader-syntax
@@ -14,6 +16,7 @@ import usersCss from '!!url-loader!./Users.less';
 import './Users.less';
 import { useCssAsStringLoader } from '../modalPortal/useCssAsStringLoader';
 import ReactDOM from 'react-dom';
+import { generateDatesInterval } from '@arcaffe/utils';
 
 const DEFAULT_USERS_SOURCE: ISource = {
   name: 'users',
@@ -27,11 +30,6 @@ export function Users() {
   const [showDetails, setShowDetails] = useState<IUser | null>(null);
   const [modalCon, setModalCon] = useState<HTMLElement | null>(null);
   const modalCss = useCssAsStringLoader([usersCss]);
-  const users = useLiveQuery(
-    () => DB.materials.where('sourceName').equals('users').toArray(),
-    [],
-    []
-  );
 
   useEffect(() => {
     fetch('http://localhost:8080/api/users')
@@ -54,17 +52,21 @@ export function Users() {
               content: `name:${name} email:${email} address:${street}, ${city}`,
             },
           } as GeoJSON.Feature;
-
+          
+          const p = centroid(geoj as any);
+          console.log({p});
+          
           return {
             id,
+            lat: p?.geometry?.coordinates?.[0],
+            long: p?.geometry?.coordinates?.[1],
             geo: geoj,
             sourceName: 'users',
             ownerApp: 'users-app',
             visibilityOnMap: 'on',
             type: 'user',
             additionalProps: user,
-            startTime,
-            endTime,
+            ...generateDatesInterval()
           } as IMaterial<IUser>;
         });
 
@@ -91,7 +93,7 @@ export function Users() {
   }, []);
 
   const itemRenderer = useCallback(
-    function ({ isSelected, additionalProps: u }: IMaterial<IUser>) {
+    function ({ isSelected, additionalProps: u }: IFilteredMaterial<IUser>) {
       return (
         <UserItem
           onShowDetails={showDetailsHandler}

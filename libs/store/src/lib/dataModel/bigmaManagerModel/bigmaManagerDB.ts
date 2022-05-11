@@ -1,9 +1,14 @@
 import Dexie, { Table } from 'dexie';
 import { IUser } from '@arcaffe/common-types';
 import GeoJSON from 'geojson';
-import { IMaterial, ISource, ISourceSchema } from '../DataModel';
+import {
+  IMaterial,
+  ISource,
+  ISourceSchema,
+  IFilter,
+  IFilteredMaterial,
+} from '../DataModel';
 import { LayoutConfig } from 'golden-layout/dist/types';
-
 
 interface AppProperties {
   appName: string;
@@ -18,12 +23,13 @@ export class BigmaManagerDB extends Dexie {
   app: { [K in keyof AppProperties]?: any };
 
   iframes!: ExtendedTable<IframeItem>;
-  filters!: ExtendedTable<Ifilter>;
+  filters!: ExtendedTable<IFilter>;
   layouts!: ExtendedTable<ILayoutRecord>;
   missions!: ExtendedTable<IMission>;
   _appTable: Dexie.Table;
   sources!: Table<ISource>;
   materials!: Table<IMaterial>;
+  filteredMaterials!: Table<IFilteredMaterial>;
 
   constructor() {
     super('BigmaManagerDB');
@@ -37,7 +43,9 @@ export class BigmaManagerDB extends Dexie {
       sources:
         '&name, ownerApp,displayName,schema,isHiddenFromMap,isHiddenFromTimeline',
       materials:
-        '&id, [sourceName+isSelected], sourceName, isSelected, ownerApp,type,interval,geo,string,drawStyle,additionalProps,visibilityOnMap',
+        '&id, [startTime+endTime],[lat+long], sourceName, ownerApp, startTime, endTime, lat, long, type, geo,string,drawStyle,additionalProps',
+      filteredMaterials:
+        '&id, [sourceName+isSelected], isSelected, startTime, endTime, visibilityOnMap, sourceName, ownerApp,type, geo,string,drawStyle,additionalProps',
     });
 
     this._appTable = this.table('app');
@@ -72,23 +80,23 @@ export class BigmaManagerDB extends Dexie {
     };
     this.app = new Proxy({}, handler);
     extendsTable(this.iframes, IframeItem);
-    extendsTable(this.filters, Ifilter);
+    extendsTable(this.filters, Filter);
     extendsTable(this.missions, IMission);
     extendsTable(this.sources, Source);
     extendsTable(this.materials, Material);
   }
   selectMaterialToggle = async (materialId: string, force?: boolean) => {
-    return this.transaction('rw', this.materials, async () => {
-      const targetMaterial = await this.materials.get(materialId);
+    return this.transaction('rw', this.filteredMaterials, async () => {
+      const targetMaterial = await this.filteredMaterials.get(materialId);
       if (targetMaterial) {
         const { isSelected, sourceName } = targetMaterial;
         if (!!isSelected === force) return;
         const finalStatus = force ?? (!isSelected || true);
-        await this.materials
+        await this.filteredMaterials
           .where('[sourceName+isSelected]')
           .equals([sourceName, 1])
           .modify({ isSelected: 0 });
-        await this.materials.update(materialId, {
+        await this.filteredMaterials.update(materialId, {
           isSelected: finalStatus ? 1 : 0,
         });
       }
@@ -131,13 +139,14 @@ class IframeItem {
   closeable?: number;
 }
 
-class Ifilter<T = any> {
+class Filter<T = any> implements IFilter {
   name!: string;
   ownerApp!: string;
   isActive!: number;
   displayName!: string;
   icon!: string; //base64
   value!: T;
+  getValue = () => this.value;
 }
 
 export class ILayoutRecord {
@@ -159,6 +168,8 @@ export class Material implements IMaterial {
   sourceName!: string;
   startTime!: Date;
   endTime!: Date;
+  lat?:number;
+  long?:number;
   geo?: GeoJSON.Feature;
   drawStyle?: any;
   additionalProps: any;

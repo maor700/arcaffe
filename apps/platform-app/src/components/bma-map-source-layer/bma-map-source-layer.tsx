@@ -1,4 +1,4 @@
-import { bigmaManagerDb, IMaterial, ISource } from '@arcaffe/store';
+import { bigmaManagerDb, IFilteredMaterial, ISource } from '@arcaffe/store';
 import { Component, Prop, State, h, Host } from '@stencil/core';
 import { liveQuery, Subscription } from 'dexie';
 import L from 'leaflet';
@@ -23,8 +23,8 @@ export class BmaMapSourceLayer {
    */
   @State() layerGroup: L.LayerGroup;
 
-  @State() materials: IMaterial[] = [];
-  @State() selected: IMaterial = null;
+  @State() filteredMaterials: IFilteredMaterial[] = [];
+  @State() selected: IFilteredMaterial = null;
 
   private addGeoHandler = ({ detail: geo }: CustomEvent<L.GeoJSON>) => {
     this.layerGroup?.addLayer(geo);
@@ -44,17 +44,17 @@ export class BmaMapSourceLayer {
 
   constructor() {
     this.materialsSubscription = liveQuery(() =>
-      bigmaManagerDb.materials
+      bigmaManagerDb.filteredMaterials
         .where('sourceName')
         .equals(this.source.name)
         .toArray()
     ).subscribe((materials) => {
       console.log(materials);
-      this.materials = materials;
+      this.filteredMaterials = materials;
     });
 
     this.selectedMaterialSubscription = liveQuery(() =>
-      bigmaManagerDb.materials
+      bigmaManagerDb.filteredMaterials
         .where('[sourceName+isSelected]')
         .equals([this.source?.name, 1])
         .first()
@@ -88,7 +88,7 @@ export class BmaMapSourceLayer {
   render() {
     return (
       <Host>
-        {this.materials.map(({ geo, id, isSelected }) => (
+        {this.filteredMaterials.map(({ geo, id, isSelected }) => (
           <bma-map-material
             onGeoClick={this._geoClickHandler}
             key={id}

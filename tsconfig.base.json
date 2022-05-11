@@ -23,6 +23,7 @@
       "@arcaffe/common-types": ["libs/common-types/src/index.ts"],
       "@arcaffe/store": ["libs/store/src/index.ts"],
       "@arcaffe/ui/loader": ["dist/libs/ui/loader"],
+      "@arcaffe/utils": ["libs/utils/src/index.ts"],
       "@common-ui/angular": ["libs/arcaffe-ui-angular/src/index.ts"],
       "@common-ui/react": ["libs/arcaffe-ui-react/src/index.ts"],
       "@multiversy/ui": ["dist/libs/multiversy"],

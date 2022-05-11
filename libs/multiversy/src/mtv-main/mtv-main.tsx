@@ -1,6 +1,7 @@
 import { Component, Host, h, Element, State } from '@stencil/core';
 import { DisplayModes } from '../mtv-window-header/types';
 
+
 // import { ComponentContainer, GoldenLayout, LayoutConfig } from 'golden-layout/dist/esm';
 
 @Component({

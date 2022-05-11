@@ -28,13 +28,27 @@ export class BmaMap {
       shadowUrl: `${getAssetPath('./images/marker-shadow.png')}`,
     });
 
-    this.map = L.map(this.mapElm, {
+    this.map  = (window as any).appMap = L.map(this.mapElm, {
       center: [41.8781, -87.6298],
       zoom: 13,
     });
     L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18,
     }).addTo(this.map);
+
+    this.map.on('moveend', () => {
+      const boundsStr = this.map.getBounds().toBBoxString();
+      console.log({boundsStr});
+      
+      bigmaManagerDb.filters.put({
+        name: 'geoFilter',
+        ownerApp: 'app',
+        isActive: 1,
+        displayName: 'פילטור גיאוגרפי',
+        icon: 'polygon',
+        value: boundsStr,
+      });
+    });
   };
 
   componentWillLoad() {

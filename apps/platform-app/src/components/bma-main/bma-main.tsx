@@ -1,13 +1,15 @@
 import { Component, Host, h, State, Watch } from '@stencil/core';
 import { liveQuery } from 'dexie';
 import { AppServices } from '../..';
-import { IMission } from '@arcaffe/store';
+import { dbController, IMission } from '@arcaffe/store';
 
 import '@ui5/webcomponents-icons/dist/decline.js';
 import '@ui5/webcomponents-icons/dist/less.js';
 import '@ui5/webcomponents-icons/dist/border.js';
 import '@ui5/webcomponents-icons/dist/popup-window.js';
 import '@ui5/webcomponents/dist/Button.js';
+
+dbController();
 
 let services: AppServices = null;
 

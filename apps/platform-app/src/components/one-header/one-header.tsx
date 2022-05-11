@@ -73,12 +73,13 @@ export class OneHeader {
           <div class="teshen">תש"ן</div>
         </div>
         <div class={`center-group ${commonClasses}`}>
-          <stencil-route-link
+          <bma-filters-bar/>
+          {/* <stencil-route-link
             url="/work-surface"
             class="tab hover:text-primary cursor-pointer"
           >
             משטח עבודה
-          </stencil-route-link>
+          </stencil-route-link> */}
           {/* <stencil-route-link url="/display-surface" class="tab hover:text-primary cursor-pointer">משטח הצגה</stencil-route-link>
           <stencil-route-link url="/files" class="tab hover:text-primary cursor-pointer">קבצים</stencil-route-link>
           <stencil-route-link url="/mission-activity" class="tab hover:text-primary cursor-pointer">פעילות במשימה</stencil-route-link> */}

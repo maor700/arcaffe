@@ -68,7 +68,7 @@ export class App extends Component<any, State> {
   componentDidMount() {
     this.selectedSubscription = from(
       liveQuery(() => {
-        return bigmaManagerDb.materials.where('isSelected').equals(1).first();
+        return bigmaManagerDb.filteredMaterials.where('isSelected').equals(1).first();
       })
     ).subscribe((material) => {
       if (!material || !this.elm.current) return;
@@ -79,7 +79,7 @@ export class App extends Component<any, State> {
       if (!selected) return;
       const selectedElement = timelineElm.container?.querySelector?.('.item-' + id);
       console.log(selectedElement);
-      selectedElement?.scrollIntoView?.({
+      selectedElement?.scrollIntoViewIfNeeded?.({
         behavior: 'auto',
         block: 'center',
         inline: 'center',
@@ -160,6 +160,7 @@ export class App extends Component<any, State> {
 
   // this limits the timeline to -6 months ... +6 months
   handleTimeChange = (visibleTimeStart, visibleTimeEnd, updateScrollCanvas) => {
+    bigmaManagerDb.filters.where("name").equals("timeRange").modify({value:{start:new Date(visibleTimeStart), end:new Date(visibleTimeEnd)}})
     if (visibleTimeStart < minTime && visibleTimeEnd > maxTime) {
       updateScrollCanvas(minTime, maxTime);
     } else if (visibleTimeStart < minTime) {

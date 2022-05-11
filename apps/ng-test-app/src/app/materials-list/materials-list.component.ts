@@ -5,9 +5,12 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { bigmaManagerDb as DB, IMaterial, ISource } from '@arcaffe/store';
+import { generateDatesInterval } from '@arcaffe/utils';
 import { wktToGeoJSON } from '@terraformer/wkt';
 import { liveQuery } from 'dexie';
+import { Geometry } from 'geojson';
 import { from } from 'rxjs';
+import centroid from "@turf/centroid";
 
 const URL_MATERIALS = 'http://localhost:8080/api/materials';
 const DEFAULT_MATERIALS_SOURCE: ISource = {
@@ -66,7 +69,7 @@ export class MaterialsListComponent implements OnInit {
   selectedId$ = liveQuery<string | undefined>(
     async () =>
       (
-        await DB.materials
+        await DB.filteredMaterials
           .where('[sourceName+isSelected]')
           .equals(['materials', 1])
           .first()
@@ -84,11 +87,11 @@ export class MaterialsListComponent implements OnInit {
         const newMaterials = data.map((mat) => {
           const { id, additionalProps, geo, displayName } = mat;
           const { email, phone } = additionalProps;
-          const geometry = geo ? wktToGeoJSON(geo) : null;
+          const geometry:Geometry = geo ? wktToGeoJSON(geo) : null;
           let geoj: GeoJSON.Feature | null = null;
           if (geometry) {
             geoj = {
-              geometry,
+              geometry:geometry,
               type: 'Feature',
               properties: {
                 name: displayName,
@@ -96,14 +99,21 @@ export class MaterialsListComponent implements OnInit {
               },
             };
           }
+
+          const p = centroid(geoj as any);
+          console.log({p});
+          
           return {
             id,
+            lat: p?.geometry?.coordinates?.[0],
+            long: p?.geometry?.coordinates?.[1],
             geo: geoj,
             sourceName: 'materials',
             ownerApp: 'materials-app',
             visibilityOnMap: 'on',
             type: 'material',
             additionalProps: additionalProps,
+            ...generateDatesInterval(),
           } as IMaterial;
         });
         DB.sources
