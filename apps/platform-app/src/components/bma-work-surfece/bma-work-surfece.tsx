@@ -30,6 +30,7 @@ export class BmaWorkSurfece {
     this.myLayout.registerComponentFactoryFunction('timeline', timeline);
     this.myLayout.registerComponentFactoryFunction('chart', chart);
     this.myLayout.registerComponentFactoryFunction('map', map);
+    this.myLayout.registerComponentFactoryFunction('ui5App', ui5App);
 
     liveQuery(async () => {
       return await bigmaManagerDb.app.layout;
@@ -219,6 +220,15 @@ function map(container: ComponentContainer) {
   return;
 }
 
+function ui5App(container: ComponentContainer) {
+  const span = document.createElement('span');
+  span.innerHTML = `<bma-iframe-kid
+  src="http://localhost:4200/"
+  style="height:100%;width:100%"></bma-iframe-kid>`;
+  container.element.appendChild(span);
+  return;
+}
+
 bigmaManagerDb.on('populate', async () => {
   bigmaManagerDb.layouts.bulkAdd([
     { name: 'base layout', layout: { root: config_1 } },
@@ -269,10 +279,10 @@ let config_1: RootItemConfig =
                       componentName: 'map',
                     },
                     {
-                      id: 'chart',
+                      id: 'ui5App',
                       type: 'component',
-                      componentType: 'chart',
-                      componentName: 'chart',
+                      componentType: 'ui5App',
+                      componentName: 'ui5App',
                     },
                   ],
                 },
@@ -353,9 +363,9 @@ let config_2: RootItemConfig = {
                     },
                     {
                       type: 'component',
-                      componentType: 'chart',
-                      componentName: 'chart',
-                      id: 'chart',
+                      componentType: 'ui5App',
+                      componentName: 'ui5App',
+                      id: 'ui5App',
                     },
                   ],
                 },

@@ -19,6 +19,7 @@
     "store": "libs/store",
     "timeline": "apps/timeline",
     "timeline-e2e": "apps/timeline-e2e",
+    "ui5-poc": "apps/ui5-poc",
     "users-app": "apps/users-app",
     "users-app-e2e": "apps/users-app-e2e",
     "utils": "libs/utils"

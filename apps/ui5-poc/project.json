@@ -1,0 +1,61 @@
+{
+  "root": "apps/ui5-poc",
+  "sourceRoot": "apps/ui5-poc/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/ui5-poc",
+        "index": "apps/ui5-poc/src/index.html",
+        "baseHref": "/",
+        "main": "apps/ui5-poc/src/main.tsx",
+        "polyfills": "apps/ui5-poc/src/polyfills.ts",
+        "tsConfig": "apps/ui5-poc/tsconfig.app.json",
+        "assets": ["apps/ui5-poc/src/favicon.ico", "apps/ui5-poc/src/assets"],
+        "styles": ["apps/ui5-poc/src/styles.less"],
+        "scripts": [],
+        "webpackConfig": "@nrwl/react/plugins/webpack"
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/ui5-poc/src/environments/environment.ts",
+              "with": "apps/ui5-poc/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/web:dev-server",
+      "options": {
+        "buildTarget": "ui5-poc:build",
+        "hmr": true
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "ui5-poc:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/ui5-poc/**/*.{ts,tsx,js,jsx}"]
+      }
+    }
+  },
+  "tags": []
+}
