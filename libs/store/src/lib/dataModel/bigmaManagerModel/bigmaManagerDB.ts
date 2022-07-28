@@ -1,6 +1,12 @@
 import Dexie, { Table } from 'dexie';
 import { IUser } from '@arcaffe/common-types';
 import GeoJSON from 'geojson';
+import geojsonRbush from 'geojson-rbush';
+import {RBush} from "@arcaffe/dexie-rbush";
+
+console.log({RBush});
+
+
 import {
   IMaterial,
   ISource,
@@ -168,8 +174,8 @@ export class Material implements IMaterial {
   sourceName!: string;
   startTime!: Date;
   endTime!: Date;
-  lat?:number;
-  long?:number;
+  lat?: number;
+  long?: number;
   geo?: GeoJSON.Feature;
   drawStyle?: any;
   additionalProps: any;
@@ -203,6 +209,34 @@ const isRecordExist = async (
   return !!(await table.get(indexKey));
 };
 
+// const functionProxy = {
+//   apply: async (target: Function, obj, args) => {
+//     const startMarkName = `${target}-start`;
+//     performance.mark(startMarkName);
+//     const results = await target.apply(obj, args);
+//     const { duration } = performance.measure(
+//       'duration',
+//       startMarkName
+//     ) as unknown as PerformanceMeasure;
+//     console.log({ name: target, duration });
+//     return results;
+//   },
+// };
+
 export const bigmaManagerDb = new BigmaManagerDB();
+// export const bigmaManagerDb = new Proxy(db, {
+//   get: (target, key) => {
+//     return target?.[key] instanceof Function
+//       ? new Proxy(target?.[key], functionProxy)
+//       : target?.[key];
+//   },
+// });
 
 console.log(bigmaManagerDb);
+
+const geoTree = (top as any).geoTree = (top as any).geoTree ?? geojsonRbush();
+bigmaManagerDb.materials.hook('creating', (_id, m, _trans) => {
+  const {geo, ...properties} = m;
+  const geoWithData = {...geo, properties}
+  geo && geoTree.insert(geoWithData);
+});

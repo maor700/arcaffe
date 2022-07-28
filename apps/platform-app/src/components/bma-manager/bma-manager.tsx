@@ -4,10 +4,6 @@ import Dexie from "dexie";
 import { AppServices } from '../..';
 import { ReplaySubject } from 'rxjs';
 import Toaster from "toastr";
-import Faker from "faker";
-console.log(Faker);
-console.log(bigmaManagerDb);
-
 
 @Component({
   tag: 'bma-manager',
@@ -39,8 +35,7 @@ export class BmaManager {
   private _iframeKidRegistration = async (name, element: HTMLBmaIframeKidElement) => {
     // register kids
     this.services.model.iframes.put({ name, isActive: 1, displayMode: "opened", ownerApp:`${name}-app` });
-    const initSuccess = await element.registrationResponse({ success: true, payload: { services: {}, model: this.services.model } })
-    console.log(initSuccess);
+    await element.registrationResponse({ success: true, payload: { services: {}, model: this.services.model } })
   }
 
   private registrationHandler = ({ detail, target }: CustomEvent<string>) => {

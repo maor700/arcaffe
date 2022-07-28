@@ -54,7 +54,6 @@ export function Users() {
           } as GeoJSON.Feature;
           
           const p = centroid(geoj as any);
-          console.log({p});
           
           return {
             id,

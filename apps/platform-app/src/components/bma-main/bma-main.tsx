@@ -1,5 +1,4 @@
 import { Component, Host, h, State, Watch } from '@stencil/core';
-import { liveQuery } from 'dexie';
 import { AppServices } from '../..';
 import { dbController, IMission } from '@arcaffe/store';
 
@@ -28,17 +27,17 @@ export class BmaMain {
   @Watch('bigMamaIsReady')
   initHandler(currentValue, oldValue) {
     if (currentValue && !oldValue) {
-      const materials$ = liveQuery(async () => {
-        const activeIframes = (
-          await services.model.iframes.where({ isActive: 1 }).toArray()
-        ).map((iframeRecord) => iframeRecord.name);
-        const materials = await services.model.materials
-          .where('ownerApp')
-          .anyOf(activeIframes)
-          .toArray();
-        return materials;
-      });
-      materials$.subscribe((_) => console.log(_, 'main'));
+      // const materials$ = liveQuery(async () => {
+      //   const activeIframes = (
+      //     await services.model.iframes.where({ isActive: 1 }).toArray()
+      //   ).map((iframeRecord) => iframeRecord.name);
+      //   const materials = await services.model.materials
+      //     .where('ownerApp')
+      //     .anyOf(activeIframes)
+      //     .toArray();
+      //   return materials;
+      // });
+      // materials$.subscribe((_) => console.log(_, 'main'));
       (services.dexie as any)
         .liveQuery(() => services.model.app.activeMission)
         .subscribe((mission: IMission) => {

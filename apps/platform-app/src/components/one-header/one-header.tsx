@@ -33,7 +33,6 @@ export class OneHeader {
     layoutStateChanged.addEventListener(
       'message',
       ({ data }: MessageEvent<LayoutConfig>) => {
-        console.log('dirt');
         this.currentLayout = {...this.currentLayout, layout:data};
         this.dirt = true;
       }
@@ -61,8 +60,6 @@ export class OneHeader {
 
   render() {
     const commonClasses = 'flex font-medium gap-5';
-    console.log(this.currentLayout?.name);
-
     return (
       <header class="app-header flex justify-between text-on-primary opacity-95 leading-[2] border-b-2 border-primary">
         <div class={`start-group ${commonClasses}`}>

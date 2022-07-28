@@ -1,3 +1,12 @@
 {
-  "presets": [["@nrwl/web/babel", { "useBuiltIns": "usage" }]]
+  "presets": [
+    "@babel/preset-typescript",
+    [
+      "@babel/preset-env",
+      {
+        "useBuiltIns": "usage",
+        "corejs": 3
+      }
+    ]
+  ]
 }

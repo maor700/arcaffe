@@ -1,0 +1,6 @@
+{
+  "root": "libs/dexie-rbush",
+  "sourceRoot": "libs/dexie-rbush/src",
+  "targets": {},
+  "tags": []
+}

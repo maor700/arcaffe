@@ -123,7 +123,6 @@ export class MtvCrossIframe {
     const targetElm = newVal ? relevantForQuery.querySelector<any>(newVal) : null;
     if (targetElm) {
       this.resizeObserver = new ResizeObserver(entries => {
-        console.log(entries);
         const [entry] = entries;
         if (!entry?.target) return;
         const { target } = entry;

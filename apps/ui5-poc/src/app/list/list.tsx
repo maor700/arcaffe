@@ -33,9 +33,6 @@ export function UsersList(props: ListProps) {
       <List
         footerText="dfzsd arg sfrgsfgsfg sg shg safg tg jhmk fjm asdf"
         mode={showMulti ? 'MultiSelect' : 'SingleSelect'}
-        onSelectionChange={(ev) => {
-          console.log(ev);
-        }}
       >
         <CustomListItem selected>
           <FlexBox

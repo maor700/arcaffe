@@ -15,8 +15,6 @@ import { render } from 'mustache';
 const DEFAULT_ITEM_TEMPLATE = '{{id}}';
 const DB = bigmaManagerDb;
 
-console.log('UiList file Loaded');
-
 @Component({
   tag: 'ui-list',
   styleUrl: 'ui-list.scss',
@@ -40,8 +38,6 @@ export class UiList {
   scrollToSelected(newVal: string) {
     if (!newVal) return;
     const el = this.elm.querySelector('#' + this._buildId(newVal));
-    console.log(el, '**el**');
-
     el?.scrollIntoView?.({
       behavior: 'smooth',
       block: 'center',
@@ -53,7 +49,6 @@ export class UiList {
   itemTemplate: string = DEFAULT_ITEM_TEMPLATE;
 
   constructor() {
-    console.log('UiList component Loaded');
     if (!this.sourceName) return;
     const templateElement: HTMLTemplateElement = this.elm.querySelector(
       '[slot="item-template"]'

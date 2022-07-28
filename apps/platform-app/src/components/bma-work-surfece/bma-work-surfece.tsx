@@ -4,12 +4,9 @@ import { liveQuery } from 'dexie';
 import {
   ComponentContainer,
   GoldenLayout,
-  BrowserPopout,
 } from 'golden-layout/dist/esm';
 import { LayoutConfig, RootItemConfig } from 'golden-layout/dist/types';
 import { layoutStateChanged } from '../../globals/channels';
-
-console.log({ BrowserPopout });
 
 @Component({
   assetsDirs: ['./img'],
@@ -26,6 +23,7 @@ export class BmaWorkSurfece {
   componentWillLoad() {
     this.myLayout = (window as any).myLayout = new GoldenLayout(this.elm);
     this.myLayout.registerComponentFactoryFunction('users', users);
+    this.myLayout.registerComponentFactoryFunction('flights', flights);
     this.myLayout.registerComponentFactoryFunction('materials', materials);
     this.myLayout.registerComponentFactoryFunction('timeline', timeline);
     this.myLayout.registerComponentFactoryFunction('chart', chart);
@@ -42,8 +40,6 @@ export class BmaWorkSurfece {
 
     this.myLayout.on('stateChanged', async () => {
       if (!this.loaded) return;
-      console.log('changed');
-
       if (this.myLayout._isInitialised) {
         const newState: LayoutConfig = this.myLayout?.toConfig();
         const newStateStr = JSON.stringify(newState);
@@ -172,6 +168,19 @@ function users(container: ComponentContainer) {
   container.element.appendChild(span);
   return;
 }
+function flights(container: ComponentContainer) {
+  const span = document.createElement('span');
+  span.innerHTML = `<bma-window style="width:100%; height:100%">
+  <bma-iframe-kid
+    slot="main"
+    class="main"
+    src="http://localhost:3006/"
+    name="flights"
+  ></bma-iframe-kid>
+</bma-window>`;
+  container.element.appendChild(span);
+  return;
+}
 
 function materials(container: ComponentContainer) {
   const span = document.createElement('span');
@@ -193,7 +202,7 @@ function timeline(container: ComponentContainer) {
   <bma-iframe-kid
     slot="main"
     class="main"
-    src="http://localhost:3002/"
+    src="https://cdpn.io/andreic/fullpage/KKyzJMW"
     name="users"
   ></bma-iframe-kid>
 </bma-window>`;
@@ -237,23 +246,6 @@ bigmaManagerDb.on('populate', async () => {
   bigmaManagerDb.app.layout = { name: 'base layout', layout: config_1 };
 });
 
-const config: LayoutConfig = {
-  root: {
-    type: 'row',
-    content: [
-      {
-        id: 'users',
-        type: 'component',
-        componentType: 'users',
-        componentName: 'משתמשים',
-      },
-    ],
-  },
-};
-
-console.log({config});
-
-
 let config_1: RootItemConfig = 
 {
   type: 'row',
@@ -290,6 +282,12 @@ let config_1: RootItemConfig =
                   type: 'stack',
                   width: 30,
                   content: [
+                    {
+                      id: 'flights',
+                      type: 'component',
+                      componentType: 'flights',
+                      componentName: 'טיסות',
+                    },
                     {
                       id: 'users',
                       type: 'component',
@@ -337,6 +335,12 @@ let config_2: RootItemConfig = {
                   type: 'stack',
                   width: 30,
                   content: [
+                    {
+                      id: 'flights',
+                      type: 'component',
+                      componentType: 'flights',
+                      componentName: 'טיסות',
+                    },
                     {
                       type: 'component',
                       componentType: 'users',

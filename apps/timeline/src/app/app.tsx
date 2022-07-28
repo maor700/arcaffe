@@ -73,12 +73,10 @@ export class App extends Component<any, State> {
     ).subscribe((material) => {
       if (!material || !this.elm.current) return;
       const timelineElm = this.elm.current;
-      console.log(timelineElm.container);
       const { id } = material;
       const selected = this.state.items.find((item) => item.id === id);
       if (!selected) return;
       const selectedElement = timelineElm.container?.querySelector?.('.item-' + id);
-      console.log(selectedElement);
       selectedElement?.scrollIntoViewIfNeeded?.({
         behavior: 'auto',
         block: 'center',

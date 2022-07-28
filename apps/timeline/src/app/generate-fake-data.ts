@@ -43,7 +43,7 @@ const DEFAULT_ITEM: Item = {
 export const groupsAndItems$ = from(
   liveQuery(async () => [
     await bigmaManagerDb.sources.toArray(),
-    await bigmaManagerDb.filteredMaterials.toArray(),
+    await bigmaManagerDb.filteredMaterials.limit(10000).toArray(),
   ])
 ).pipe(
   map(([allSources, allMaterials]) => {

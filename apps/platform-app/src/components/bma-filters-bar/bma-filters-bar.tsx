@@ -3,6 +3,7 @@ import { bigmaManagerDb } from '@arcaffe/store';
 import { Component, h, State } from '@stencil/core';
 import { IFilter } from '@arcaffe/store';
 import { liveQuery, Subscription } from 'dexie';
+import dayjs from 'dayjs';
 
 interface TimeRangeFilterValue {
   start: Date;
@@ -24,8 +25,6 @@ export class BmaFiltersBar {
     this.suorcesSubscription = liveQuery(() =>
       bigmaManagerDb.filters.get('timeRange')
     ).subscribe((timeRange) => {
-      console.log({timeRange},"hi");
-      
       this.timeRangeFilter =
         timeRange ?? this.timeRangeFilter ?? DEFAULT_TIME_RANGE_FILTER;
     });
@@ -54,9 +53,9 @@ export class BmaFiltersBar {
           <input
             name="start"
             type="datetime-local"
-            value={this.timeRangeFilter?.value?.start?.toISOString().substring(0,16)}
+            value={formatDate(this.timeRangeFilter?.value?.start)}
             onChange={({ target }: any) => {
-              this.dateFilterChangeHandler({ start: new Date(target.value+"z") });
+              this.dateFilterChangeHandler({ start: dayjs(target.value).toDate() });
             }}
             />
         </span>
@@ -65,9 +64,9 @@ export class BmaFiltersBar {
           <input
             name="end"
             type="datetime-local"
-            value={this.timeRangeFilter?.value?.end?.toISOString().substring(0,16)}
+            value={formatDate(this.timeRangeFilter?.value?.end)}
             onChange={({ target }: any) => {
-              this.dateFilterChangeHandler({ end: new Date(target.value+"z") });
+              this.dateFilterChangeHandler({ end: dayjs(target.value).toDate() });
             }}
           />
         </span>
@@ -96,3 +95,9 @@ bigmaManagerDb.on('populate', async () => {
 //     { name: 'users', color: 'blue', ownerApp: 'users' },
 //   ]);
 // });
+
+
+function formatDate(date:Date){
+  const dateStr = dayjs(date).format('YYYY-MM-DDThh:mm');
+  return dateStr;
+}

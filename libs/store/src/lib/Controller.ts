@@ -3,48 +3,50 @@ import { bigmaManagerDb, IFilteredMaterial } from '@arcaffe/store';
 import { debounceTime, from } from 'rxjs';
 
 export function dbController() {
-  console.log({ bigmaManagerDb }, 'dbController');
-
-  const subsc = from(liveQuery(async () => {
-    await bigmaManagerDb.materials.toArray();
-    return bigmaManagerDb.filters.get('timeRange');
-  })).pipe(debounceTime(50)).subscribe(async (timeRange) => {
-    if (!timeRange) return;
-    bigmaManagerDb.transaction(
-      'rw',
-      bigmaManagerDb.filteredMaterials,
-      bigmaManagerDb.materials,
-      async () => {
-        const newFiltered: IFilteredMaterial[] = [];
-        const start = new Date(timeRange?.value?.start + 'z');
-        const end = new Date(timeRange?.value?.end + 'z');
-        await bigmaManagerDb.materials
-          .where('[startTime+endTime]')
-          .between([start, start], [end, end])
-          .each(async (m) => {
-            const currentFilteredMaterial =
-              await bigmaManagerDb.filteredMaterials.get(m.id);
-            let newFilteredMaterial: IFilteredMaterial = {
-              ...m,
-              isSelected: 0,
-              visibilityOnMap: 'on',
-            };
-
-            if (currentFilteredMaterial) {
-              newFilteredMaterial = {
-                ...newFilteredMaterial,
-                ...currentFilteredMaterial,
+  const subsc = from(
+    liveQuery(async () => {
+      await bigmaManagerDb.materials.toArray();
+      return bigmaManagerDb.filters.get('timeRange');
+    })
+  )
+    .pipe(debounceTime(50))
+    .subscribe(async (timeRange) => {
+      if (!timeRange) return;
+      bigmaManagerDb.transaction(
+        'rw',
+        bigmaManagerDb.filteredMaterials,
+        bigmaManagerDb.materials,
+        async () => {
+          const newFiltered: IFilteredMaterial[] = [];
+          const start = timeRange?.value?.start;
+          const end = timeRange?.value?.end;
+          await bigmaManagerDb.materials
+            .where('[startTime+endTime]')
+            .between([start, start], [end, end])
+            .each(async (m) => {
+              const currentFilteredMaterial =
+                await bigmaManagerDb.filteredMaterials.get(m.id);
+              let newFilteredMaterial: IFilteredMaterial = {
                 ...m,
+                isSelected: 0,
+                visibilityOnMap: 'on',
               };
-            }
-            newFiltered.push(newFilteredMaterial);
-          });
-        console.log({ newFiltered });
-        await bigmaManagerDb.filteredMaterials.clear();
-        await bigmaManagerDb.filteredMaterials.bulkPut(newFiltered);
-      }
-    );
-  });
+
+              if (currentFilteredMaterial) {
+                newFilteredMaterial = {
+                  ...newFilteredMaterial,
+                  ...currentFilteredMaterial,
+                  ...m,
+                };
+              }
+              newFiltered.push(newFilteredMaterial);
+            });
+          // console.log({ newFiltered });
+          await bigmaManagerDb.filteredMaterials.clear();
+          await bigmaManagerDb.filteredMaterials.bulkPut(newFiltered);
+        }
+      );
+    });
 
   // const subsc2 = liveQuery(async () => {
   //   return bigmaManagerDb.filters.get('geoFilter') as Promise<IFilter<string>>;

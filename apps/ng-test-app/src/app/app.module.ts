@@ -6,9 +6,6 @@ import { MaterialsListComponent } from './materials-list/materials-list.componen
 import { MaterialsListItemComponent } from './materials-list-item/materials-list-item.component';
 import {ArcaffeUiAngularModule} from '@common-ui/angular';
 
-console.log(ArcaffeUiAngularModule);
-
-
 @NgModule({
   declarations: [AppComponent, MaterialsListComponent, MaterialsListItemComponent ],
   imports: [BrowserModule, ArcaffeUiAngularModule],

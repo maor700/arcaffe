@@ -1,0 +1,24 @@
+{
+  "root": "libs/tree",
+  "sourceRoot": "libs/tree/src",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/tree",
+        "main": "libs/tree/src/index.ts",
+        "tsConfig": "libs/tree/tsconfig.lib.json",
+        "assets": ["libs/tree/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/tree/**/*.ts"]
+      }
+    }
+  },
+  "tags": []
+}

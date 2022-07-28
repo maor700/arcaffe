@@ -38,8 +38,6 @@ export class BmaMap {
 
     this.map.on('moveend', () => {
       const boundsStr = this.map.getBounds().toBBoxString();
-      console.log({boundsStr});
-      
       bigmaManagerDb.filters.put({
         name: 'geoFilter',
         ownerApp: 'app',

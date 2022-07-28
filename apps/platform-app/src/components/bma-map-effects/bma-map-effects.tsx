@@ -20,7 +20,6 @@ export class BmaMapEffects {
     // flyto area
     const sub1 = liveQuery(() => bigmaManagerDb.app.mapArea).subscribe(
       (bounds: string) => {
-        console.log(bounds);
         const bbox = bounds?.split(',').map(Number.parseFloat);
         if (!bbox) return;
         const [southwest_lng, southwest_lat, northeast_lng, northeast_lat] =

@@ -1,8 +1,6 @@
 import { Component, Prop, State } from '@stencil/core';
 import React from 'react';
 import ReactDOM from "react-dom";
-console.log(ReactDOM);
-console.log(React);
 
 @Component({
   tag: 'portal-panel',
@@ -23,8 +21,6 @@ export class PortalPanel {
     const hostDoc = this.getHostDocument();
     const modalsConElm = hostDoc.querySelector(this.portalGateSelector);
     this.portalGateElement = modalsConElm;
-    console.log(modalsConElm);
-    
     // modalsConElm?.append(modalsConElm);
     
   }

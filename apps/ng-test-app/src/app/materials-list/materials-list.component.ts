@@ -19,13 +19,6 @@ const DEFAULT_MATERIALS_SOURCE: ISource = {
   ownerApp: 'materials',
 };
 
-const materialsObs$ = from<Array<IMaterial[]>>(
-  liveQuery(() =>
-    DB.materials.where('sourceName').equals('materials').toArray()
-  ) as any
-);
-
-materialsObs$.subscribe((arr) => console.log('**__ARRIVED__**', arr));
 export interface Material {
   geo: string;
   type: string;
@@ -60,7 +53,6 @@ export class MaterialsListComponent implements OnInit {
         .where('sourceName')
         .equals('materials')
         .toArray();
-      console.log('inner ', results);
       // this.appRef.tick();
       return results;
     }) as any
@@ -79,8 +71,6 @@ export class MaterialsListComponent implements OnInit {
   constructor(private appRef: ApplicationRef) {}
 
   ngOnInit(): void {
-    console.log('');
-
     fetch(URL_MATERIALS)
       .then((res) => res.json())
       .then((data: Material[]) => {
@@ -101,7 +91,6 @@ export class MaterialsListComponent implements OnInit {
           }
 
           const p = centroid(geoj as any);
-          console.log({p});
           
           return {
             id,

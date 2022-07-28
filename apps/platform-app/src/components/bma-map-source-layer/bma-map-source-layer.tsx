@@ -6,7 +6,7 @@ import L from 'leaflet';
 @Component({
   tag: 'bma-map-source-layer',
   styleUrl: 'bma-map-source-layer.less',
-  shadow: true,
+  shadow: false,
 })
 export class BmaMapSourceLayer {
   /**
@@ -21,7 +21,7 @@ export class BmaMapSourceLayer {
   /**
    * The middle name
    */
-  @State() layerGroup: L.LayerGroup;
+  @State() layerGroup = L.markerClusterGroup();
 
   @State() filteredMaterials: IFilteredMaterial[] = [];
   @State() selected: IFilteredMaterial = null;
@@ -43,13 +43,20 @@ export class BmaMapSourceLayer {
   private sourceSubscription: Subscription;
 
   constructor() {
-    this.materialsSubscription = liveQuery(() =>
-      bigmaManagerDb.filteredMaterials
+    this.materialsSubscription = liveQuery(async () => {
+      const startMarkName = `query-materials-start`;
+      performance.mark(startMarkName);
+      const results = await bigmaManagerDb.filteredMaterials
         .where('sourceName')
         .equals(this.source.name)
-        .toArray()
-    ).subscribe((materials) => {
-      console.log(materials);
+        .toArray();
+      const { duration } = performance.measure(
+        'duration',
+        startMarkName
+      ) as unknown as PerformanceMeasure;
+      console.log({ name: "query-materials", duration });
+      return results;
+    }).subscribe((materials) => {
       this.filteredMaterials = materials;
     });
 
@@ -75,7 +82,6 @@ export class BmaMapSourceLayer {
     if (!source) {
       console.warn(`${this.source?.name} does not exist in Sources table`);
     }
-    this.layerGroup = new L.LayerGroup();
     this.layerGroup.addTo(this.map);
   }
 

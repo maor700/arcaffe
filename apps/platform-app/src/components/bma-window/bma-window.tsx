@@ -35,8 +35,6 @@ export class BmaWindow {
   }
 
   render() {
-    console.log(this.displayMode);
-
     return (
       <Host>
         <div class={'window grid-header-footer-con ' + this.displayMode}>
